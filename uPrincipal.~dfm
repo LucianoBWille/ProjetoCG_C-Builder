@@ -47,8 +47,8 @@ object Form1: TForm1
     Top = 0
     Width = 657
     Height = 529
-    ActivePage = TabSheetPoligonos
-    TabIndex = 0
+    ActivePage = TabSheetMundoVP
+    TabIndex = 1
     TabOrder = 1
     object TabSheetPoligonos: TTabSheet
       Caption = 'Poligonos'
@@ -108,8 +108,8 @@ object Form1: TForm1
             Top = 0
             Width = 641
             Height = 337
-            ActivePage = TabSheet2
-            TabIndex = 0
+            ActivePage = TabSheet3
+            TabIndex = 1
             TabOrder = 0
             object TabSheet2: TTabSheet
               Caption = 'Poligono'
@@ -126,6 +126,23 @@ object Form1: TForm1
             object TabSheet3: TTabSheet
               Caption = 'Circulo'
               ImageIndex = 1
+              object EdRaioCirculo: TEdit
+                Left = 8
+                Top = 24
+                Width = 121
+                Height = 21
+                TabOrder = 0
+                Text = '10'
+              end
+              object BtnNovoCirculo: TButton
+                Left = 152
+                Top = 24
+                Width = 75
+                Height = 25
+                Caption = 'Novo Circulo'
+                TabOrder = 1
+                OnClick = BtnNovoCirculoClick
+              end
             end
           end
         end

@@ -5,8 +5,6 @@
 
 #include "uPoligono.h"
 
-#include <math.h>
-
 //---------------------------------------------------------------------------
 Poligono::Poligono(){
   tipo = 'N';

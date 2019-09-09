@@ -6,9 +6,9 @@
 #include "uPonto.h"
 
 //---------------------------------------------------------------------------
-Ponto::Ponto(double xw, double yw){
-        this->x = xw;
-        this->y = yw;
+Ponto::Ponto(double nx, double ny){
+        x = nx;
+        y = ny;
 }
 Ponto::Ponto(){
         x = y = 1;

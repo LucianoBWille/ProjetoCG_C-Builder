@@ -26,6 +26,9 @@ class Poligono{
                 void desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool destaca);
                 void removePonto(int indice);
                 void destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice);
+                Poligono criaPoligonoCirculo(int r);
+                Ponto calculaCentroPoligono();
+
 };
 #endif
  

@@ -10,7 +10,7 @@ class Ponto{
         public:
                 double x,y;
                 
-        Ponto(double, double);
+        Ponto(double nx, double ny);
         Ponto();
         int XW2VP(Janela mundo, Janela vp);
         int YW2VP(Janela mundo, Janela vp);

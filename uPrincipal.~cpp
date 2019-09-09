@@ -409,3 +409,19 @@ void __fastcall TForm1::RadioGroup1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm1::BtnNovoCirculoClick(TObject *Sender)
+{
+        Poligono poligono;
+        poligono = poligono.criaPoligonoCirculo(StrToInt(EdRaioCirculo->Text));
+        int raio = StrToInt(EdRaioCirculo->Text);
+        //*0.7071067811865;
+        ShowMessage(IntToStr(raio));
+        display.poligonos.push_back(poligono);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        display.poligonos[display.poligonos.size()-1
+                        ].desenha(Image1->Canvas, mundo, vp, tipoReta, true);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+

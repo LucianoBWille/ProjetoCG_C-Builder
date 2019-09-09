@@ -61,6 +61,8 @@ __published:	// IDE-managed Components
         TSpeedButton *SpeedButton2;
         TSpeedButton *SpeedButton3;
         TSpeedButton *SpeedButton4;
+        TEdit *EdRaioCirculo;
+        TButton *BtnNovoCirculo;
         void __fastcall Image1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y);
         void __fastcall BtnNovoComMouseClick(TObject *Sender);
@@ -87,6 +89,7 @@ __published:	// IDE-managed Components
         void __fastcall SpeedButton1Click(TObject *Sender);
         void __fastcall SpeedButton3Click(TObject *Sender);
         void __fastcall SpeedButton4Click(TObject *Sender);
+        void __fastcall BtnNovoCirculoClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         void atualizaCoordenadaMundo();

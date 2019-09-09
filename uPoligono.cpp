@@ -5,6 +5,8 @@
 
 #include "uPoligono.h"
 
+#include <math.h>
+
 //---------------------------------------------------------------------------
 Poligono::Poligono(){
   tipo = 'N';
@@ -16,7 +18,7 @@ void Poligono::desenha(TCanvas* canvas, Janela mundo, Janela vp, int tipoReta, b
                         break;
                 case 1: desenhaDDA(canvas, mundo, vp, destaca);
                         break;
-                case 3: desenhaBresenham(canvas, mundo, vp, destaca);
+                case 2: desenhaBresenham(canvas, mundo, vp, destaca);
                         break;
         }
 };
@@ -107,7 +109,7 @@ void Poligono::desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool d
                 erro = 2*deltay-deltax;
                 for(int i = 0; i < deltax; i++){
                         canvas->Pixels[x][y] = clBlue;
-                        if(destaca != destaca){
+                        if(destaca){
                                 canvas->Pixels[x+1][y] = clBlue;
                                 canvas->Pixels[x-1][y] = clBlue;
                                 canvas->Pixels[x][y+1] = clBlue;
@@ -139,6 +141,69 @@ void Poligono::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice
         canvas->Pen->Width = 3;
         int tam = 5;
         canvas->Ellipse( x - tam, y - tam, x + tam, y + tam );
+};
+
+Poligono Poligono::criaPoligonoCirculo(int r){
+        vector<Poligono> parte;
+        Poligono p0;
+        parte.push_back(p0);
+        Poligono p1;
+        parte.push_back(p1);   
+        Poligono p2;
+        parte.push_back(p2);
+        Poligono p3;
+        parte.push_back(p3);
+        Poligono p4;
+        parte.push_back(p4);
+        Poligono p5;
+        parte.push_back(p5);
+        Poligono p6;
+        parte.push_back(p6);
+        Poligono p7;
+        parte.push_back(p7);
+        Poligono pol;
+
+        int x, y, p;
+        x = 0;
+        y = r;
+        p = 1 - r;
+        int aux = 0.7071067811865*r;
+        parte[0].pontos.push_back(Ponto(r, 0));
+        parte[1].pontos.push_back(Ponto(aux, aux));
+        parte[2].pontos.push_back(Ponto(0, r));
+        parte[3].pontos.push_back(Ponto(-aux, aux));
+        parte[4].pontos.push_back(Ponto(-r, 0));
+        parte[5].pontos.push_back(Ponto(-aux, -aux));
+        parte[6].pontos.push_back(Ponto(0, -r));
+        parte[7].pontos.push_back(Ponto(aux, -aux));
+        while(x < y){
+                if(p < 0){
+                        x++;
+                        p += 2 * x + 1;
+                }else{
+                        x++;
+                        y--;
+                        p += 2 * (x - y) + 1;
+                }    
+                if (x < y){
+                        parte[0].pontos.push_back(Ponto(y, x));
+                        parte[1].pontos.insert(parte[1].pontos.begin() + 1, Ponto(x,y));
+                        parte[2].pontos.push_back(Ponto(-x, y));
+                        parte[3].pontos.insert(parte[3].pontos.begin() + 1, Ponto(-y, x));
+                        parte[4].pontos.push_back(Ponto(-y, -x));
+                        parte[5].pontos.insert(parte[5].pontos.begin() + 1, Ponto(-x, -y));
+                        parte[6].pontos.push_back(Ponto(x, -y));
+                        parte[7].pontos.insert(parte[7].pontos.begin() + 1, Ponto(y, -x));
+                }
+        }
+        for(unsigned int i = 0; i<8; i++){
+                for(unsigned int j=0; j<parte[i].pontos.size(); j++){
+                        pol.pontos.push_back(parte[i].pontos[j]);
+                }
+        }
+        pol.pontos.push_back(parte[0].pontos[0]);
+        return pol;
+
 };
 
 #pragma package(smart_init)

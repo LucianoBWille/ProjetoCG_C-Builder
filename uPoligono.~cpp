@@ -56,7 +56,7 @@ void Poligono::desenhaDDA(TCanvas* canvas, Janela mundo, Janela vp, bool destaca
                 x = x1 + 0.5*SIGN(deltax);
                 y = y1 + 0.5*SIGN(deltay);
 
-                for (unsigned int i = 0; i < length; i++){
+                for (int i = 0; i < length; i++){
                         canvas->Pixels[FLOOR(x)][FLOOR(y)] = clRed;
                         if(destaca){
                                 canvas->Pixels[FLOOR(x+1)][FLOOR(y)] = clRed;
@@ -71,7 +71,7 @@ void Poligono::desenhaDDA(TCanvas* canvas, Janela mundo, Janela vp, bool destaca
 };
 
 void Poligono::desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool destaca){
-{
+
         #define SIGN(x)  ((x) < 0 ? (-1): (1))
         #define ABS(x)   ((x) < 0 ? (-x): (x))
         #define FLOOR(x) ((x) < 0 ? ((x) - (int)(x) != 0 ? ((int)(x) - 1) : ((int)(x))) : (int)(x))
@@ -105,9 +105,9 @@ void Poligono::desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool d
                         interchange = true;
                 }
                 erro = 2*deltay-deltax;
-                for(unsigned int i = 0; i < deltax; i++){
+                for(int i = 0; i < deltax; i++){
                         canvas->Pixels[x][y] = clBlue;
-                        if(destaca){
+                        if(destaca != destaca){
                                 canvas->Pixels[x+1][y] = clBlue;
                                 canvas->Pixels[x-1][y] = clBlue;
                                 canvas->Pixels[x][y+1] = clBlue;

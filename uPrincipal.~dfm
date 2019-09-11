@@ -47,8 +47,8 @@ object Form1: TForm1
     Top = 0
     Width = 657
     Height = 529
-    ActivePage = TabSheetMundoVP
-    TabIndex = 1
+    ActivePage = TabSheetPoligonos
+    TabIndex = 0
     TabOrder = 1
     object TabSheetPoligonos: TTabSheet
       Caption = 'Poligonos'
@@ -98,8 +98,8 @@ object Form1: TForm1
         Top = 136
         Width = 649
         Height = 369
-        ActivePage = TabSheetdicionaPoligono
-        TabIndex = 0
+        ActivePage = TabSheet1
+        TabIndex = 1
         TabOrder = 3
         object TabSheetdicionaPoligono: TTabSheet
           Caption = 'Adicionar'
@@ -121,6 +121,15 @@ object Form1: TForm1
                 Caption = 'Novo Com Mouse'
                 TabOrder = 0
                 OnClick = BtnNovoComMouseClick
+              end
+              object Button6: TButton
+                Left = 152
+                Top = 88
+                Width = 75
+                Height = 25
+                Caption = 'Button6'
+                TabOrder = 1
+                OnClick = Button6Click
               end
             end
             object TabSheet3: TTabSheet
@@ -149,6 +158,41 @@ object Form1: TForm1
         object TabSheet1: TTabSheet
           Caption = 'Editar'
           ImageIndex = 2
+          object LabelDx: TLabel
+            Left = 296
+            Top = 16
+            Width = 13
+            Height = 13
+            Caption = 'Dx'
+          end
+          object LabelDy: TLabel
+            Left = 360
+            Top = 16
+            Width = 13
+            Height = 13
+            Caption = 'Dy'
+          end
+          object LabelSx: TLabel
+            Left = 296
+            Top = 88
+            Width = 12
+            Height = 13
+            Caption = 'Sx'
+          end
+          object LabelSy: TLabel
+            Left = 360
+            Top = 88
+            Width = 12
+            Height = 13
+            Caption = 'Sy'
+          end
+          object Label2: TLabel
+            Left = 296
+            Top = 216
+            Width = 81
+            Height = 13
+            Caption = #194'ngulo em Graus'
+          end
           object BtnRemoverPonto: TButton
             Left = 8
             Top = 40
@@ -166,6 +210,116 @@ object Form1: TForm1
             Caption = 'Remover Poligono'
             TabOrder = 1
             OnClick = BtnRemoverPoligonoClick
+          end
+          object EdDyTrans: TEdit
+            Left = 360
+            Top = 32
+            Width = 57
+            Height = 25
+            TabOrder = 2
+            Text = '0,0'
+          end
+          object EdSyEscalona: TEdit
+            Left = 360
+            Top = 104
+            Width = 57
+            Height = 25
+            TabOrder = 3
+            Text = '0,0'
+          end
+          object EdAnguloRotacao: TEdit
+            Left = 296
+            Top = 232
+            Width = 121
+            Height = 25
+            TabOrder = 4
+            Text = '0,0'
+          end
+          object BtnTranslada: TButton
+            Left = 440
+            Top = 32
+            Width = 145
+            Height = 25
+            Caption = 'Transla'#231#227'o'
+            TabOrder = 5
+            OnClick = BtnTransladaClick
+          end
+          object BtnEscalonaNormal: TButton
+            Left = 440
+            Top = 88
+            Width = 145
+            Height = 25
+            Caption = 'Escalonamento'
+            TabOrder = 6
+            OnClick = BtnEscalonaNormalClick
+          end
+          object BtnRotacionaNormal: TButton
+            Left = 440
+            Top = 216
+            Width = 145
+            Height = 25
+            Caption = 'Rota'#231#227'o'
+            TabOrder = 7
+            OnClick = BtnRotacionaNormalClick
+          end
+          object BtnEscalonaHomo: TButton
+            Left = 440
+            Top = 120
+            Width = 145
+            Height = 25
+            Caption = 'Escalonamento Homogeneo'
+            TabOrder = 8
+          end
+          object BtnRotacionaHomo: TButton
+            Left = 440
+            Top = 248
+            Width = 145
+            Height = 25
+            Caption = 'Rota'#231#227'o Homogenea'
+            TabOrder = 9
+          end
+          object EdDxTrans: TEdit
+            Left = 296
+            Top = 32
+            Width = 57
+            Height = 25
+            TabOrder = 10
+            Text = '0,0'
+          end
+          object EdSxEscalona: TEdit
+            Left = 296
+            Top = 104
+            Width = 57
+            Height = 25
+            TabOrder = 11
+            Text = '0,0'
+          end
+          object BtnRefletirTotal: TButton
+            Left = 288
+            Top = 168
+            Width = 97
+            Height = 25
+            Caption = 'Refletir Total'
+            TabOrder = 12
+            OnClick = BtnRefletirTotalClick
+          end
+          object BtnRefletirEmX: TButton
+            Left = 400
+            Top = 168
+            Width = 97
+            Height = 25
+            Caption = 'Refletir em X'
+            TabOrder = 13
+            OnClick = BtnRefletirEmXClick
+          end
+          object BtnRefletirEmY: TButton
+            Left = 512
+            Top = 168
+            Width = 97
+            Height = 25
+            Caption = 'Refletir em Y'
+            TabOrder = 14
+            OnClick = BtnRefletirEmYClick
           end
         end
       end

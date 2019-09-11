@@ -27,7 +27,14 @@ class Poligono{
                 void removePonto(int indice);
                 void destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice);
                 Poligono criaPoligonoCirculo(int r);
+                void transladaNormal(float dx, float dy);
+                void escalonaNormal(float sx, float sy);
+                void rotacionaNormal(float angulo);
                 Ponto calculaCentroPoligono();
+                void Homogeniza(bool trans, bool escal, bool rota, float dx,
+                                float dy, float sx, float sy, float angulo);
+
+
 
 };
 #endif

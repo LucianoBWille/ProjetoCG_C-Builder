@@ -14,12 +14,10 @@ class Ponto{
         Ponto();
         int XW2VP(Janela mundo, Janela vp);
         int YW2VP(Janela mundo, Janela vp);
-        void translacaoNormal(int dx, int dy);
-        void escalonamentoNormal(float variacao);
-        void rotacaoNormal(float angulo);
-        void reflexao(int tipo);
-        void escalonamentoHomogeneo(float variacao);
-        void rotacaoHomogenea(float angulo);
+        void transladaNormal(float dx, float dy);
+        void escalonaNormal(float sx, float sy);
+        void rotacionaNormal(float angulo);
+        void Homogeneo(float m0[3], float m1[3], float m2[3]);
 
 };
 #endif

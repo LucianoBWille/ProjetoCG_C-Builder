@@ -19,7 +19,7 @@ Poligono poligono;
 DisplayFile display;
 int contaId=0;
 bool novo = false;
-int tempIndexListBoxPoligonos = -1; 
+int tempIndexListBoxPoligonos = -1;
 int tempIndexListBoxPontos = -1;
 int tipoReta = 0;
 
@@ -111,6 +111,7 @@ void TForm1::atualizaListaPontos(){
 void TForm1::desselecionaPoligonos(){
         ListBoxPoligonos->ItemIndex = -1;
         tempIndexListBoxPoligonos = -1;
+        desselecionaPontos();
 }
 //---------------------------------------------------------------------------
 void TForm1::desselecionaPontos(){
@@ -413,11 +414,104 @@ void __fastcall TForm1::BtnNovoCirculoClick(TObject *Sender)
 {
         Poligono poligono;
         poligono = poligono.criaPoligonoCirculo(StrToInt(EdRaioCirculo->Text));
+        poligono.id = contaId++;
         display.poligonos.push_back(poligono);
+        desselecionaPoligonos();
         display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
                                 tempIndexListBoxPontos, tipoReta);
         display.poligonos[display.poligonos.size()-1
                         ].desenha(Image1->Canvas, mundo, vp, tipoReta, true);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::Button6Click(TObject *Sender)
+{
+        Ponto p;
+        p = display.poligonos[display.poligonos.size()-1].calculaCentroPoligono();
+        Image1->Canvas->Ellipse(p.XW2VP(mundo, vp)+3,p.YW2VP(mundo, vp)+3,p.XW2VP(mundo, vp)-3,p.YW2VP(mundo, vp)-3);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnTransladaClick(TObject *Sender)
+{
+        float x,y;
+        x = StrToFloat(EdDxTrans->Text);
+        y = StrToFloat(EdDyTrans->Text);
+        display.poligonos[tempIndexListBoxPoligonos].transladaNormal(x, y);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::BtnEscalonaNormalClick(TObject *Sender)
+{
+        float x,y;
+        x = StrToFloat(EdSxEscalona->Text);
+        y = StrToFloat(EdSyEscalona->Text);
+        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(x, y);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnRefletirTotalClick(TObject *Sender)
+{
+        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, -1);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnRefletirEmXClick(TObject *Sender)
+{
+        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, 1);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnRefletirEmYClick(TObject *Sender)
+{
+        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(1, -1);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnRotacionaNormalClick(TObject *Sender)
+{
+        float angulo = StrToFloat(EdAnguloRotacao->Text);
+        display.poligonos[tempIndexListBoxPoligonos].rotacionaNormal(angulo);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
+{
+        float dx, dy, sx, sy, angulo;
+        dx = StrToFloat(EdDxTrans->Text);   
+        dy = StrToFloat(EdDyTrans->Text);
+        sx = StrToFloat(EdSxEscalona->Text);
+        sy = StrToFloat(EdSyEscalona->Text);
+        angulo = StrToFloat(EdAnguloRotacao->Text);
+        bool t, e, r;
+        t = true;
+        e = true;
+        r = true;
+        display.poligonos[tempIndexListBoxPoligonos].Homogeniza(
+                        t, e, r, dx, dy, sx, sy, angulo);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
         atualizaListaPoligonos();
 }
 //---------------------------------------------------------------------------

@@ -5,6 +5,8 @@
 
 #include "uPoligono.h"
 
+#include <math.h>
+
 //---------------------------------------------------------------------------
 Poligono::Poligono(){
   tipo = 'N';
@@ -201,6 +203,65 @@ Poligono Poligono::criaPoligonoCirculo(int r){
         }
         pol.pontos.push_back(parte[0].pontos[0]);
         return pol;
+
+};
+
+void Poligono::transladaNormal(float dx, float dy){
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].transladaNormal(dx, dy);
+        }
+};
+
+void Poligono::escalonaNormal(float sx, float sy){
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].escalonaNormal(sx, sy);
+        }
+};
+
+void Poligono::rotacionaNormal(float angulo){
+        float angRad = (M_PI / 180) * angulo;
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].rotacionaNormal(angRad);
+        }
+};
+
+Ponto Poligono::calculaCentroPoligono(){
+        double maiorX, maiorY, menorX, menorY;
+        for (unsigned int i = 0; i < pontos.size(); i++){
+                if(i==0){
+                        maiorX = pontos[i].x;
+                        maiorY = pontos[i].y;
+                        menorX = pontos[i].x;
+                        menorY = pontos[i].y;
+                }else{
+                        if(maiorX < pontos[i].x){
+                                maiorX = pontos[i].x;
+                        }else{
+                                if(menorX > pontos[i].x){
+                                        menorX = pontos[i].x;
+                                }
+                        }
+                        if(maiorY < pontos[i].y){
+                                maiorY = pontos[i].y;
+                        }
+                        else{
+                                if(menorY > pontos[i].y){
+                                        menorY = pontos[i].y;
+                                }
+                        }
+                }
+        }
+        Ponto p;
+        p.x = (maiorX + menorX)/2;
+        p.y = (maiorY + menorY)/2;
+        return p;
+};
+
+void Poligono::escalonaHomogeneo(){
+
+};
+
+void Poligono::rotacionaHomogeneo(){
 
 };
 

@@ -5,6 +5,8 @@
 
 #include "uPoligono.h"
 
+#include <math.h>
+
 //---------------------------------------------------------------------------
 Poligono::Poligono(){
   tipo = 'N';
@@ -202,6 +204,214 @@ Poligono Poligono::criaPoligonoCirculo(int r){
         pol.pontos.push_back(parte[0].pontos[0]);
         return pol;
 
+};
+
+void Poligono::transladaNormal(float dx, float dy){
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].transladaNormal(dx, dy);
+        }
+};
+
+void Poligono::escalonaNormal(float sx, float sy){
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].escalonaNormal(sx, sy);
+        }
+};
+
+void Poligono::rotacionaNormal(float angulo){
+        float angRad = (M_PI / 180) * angulo;
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].rotacionaNormal(angRad);
+        }
+};
+
+Ponto Poligono::calculaCentroPoligono(){
+        double maiorX, maiorY, menorX, menorY;
+        for (unsigned int i = 0; i < pontos.size(); i++){
+                if(i==0){
+                        maiorX = pontos[i].x;
+                        maiorY = pontos[i].y;
+                        menorX = pontos[i].x;
+                        menorY = pontos[i].y;
+                }else{
+                        if(maiorX < pontos[i].x){
+                                maiorX = pontos[i].x;
+                        }else{
+                                if(menorX > pontos[i].x){
+                                        menorX = pontos[i].x;
+                                }
+                        }
+                        if(maiorY < pontos[i].y){
+                                maiorY = pontos[i].y;
+                        }
+                        else{
+                                if(menorY > pontos[i].y){
+                                        menorY = pontos[i].y;
+                                }
+                        }
+                }
+        }
+        Ponto p;
+        p.x = (maiorX + menorX)/2;
+        p.y = (maiorY + menorY)/2;
+        return p;
+};
+
+void Poligono::Homogeniza(bool trans, bool escal, bool rota, float dx,
+                                float dy, float sx, float sy, float angulo){
+        float t1[3][3], esc[3][3], rot[3][3], t[3][3], t2[3][3], m[3][3], mf[3][3];
+        float angRad = (M_PI / 180) * angulo, sum = 0;
+        Ponto centro = calculaCentroPoligono();
+        t1[0][0] = 1;
+        t1[0][1] = 0;
+        t1[0][2] = 0;
+        t1[1][0] = 0;
+        t1[1][1] = 1;
+        t1[1][2] = 0;
+        t1[2][0] = -centro.x;
+        t1[2][1] = -centro.y;
+        t1[2][2] = 1;
+
+        esc[0][0] = sx;
+        esc[0][1] = 0;
+        esc[0][2] = 0;
+        esc[1][0] = 0;
+        esc[1][1] = sy;
+        esc[1][2] = 0;
+        esc[2][0] = 0;
+        esc[2][1] = 0;
+        esc[2][2] = 1;
+
+        rot[0][0] = cos(angRad);
+        rot[0][1] = sin(angRad);
+        rot[0][2] = 0;
+        rot[1][0] = -sin(angRad);
+        rot[1][1] = cos(angRad);
+        rot[1][2] = 0;
+        rot[2][0] = 0;
+        rot[2][1] = 0;
+        rot[2][2] = 1;
+
+        t[0][0] = 1;
+        t[0][1] = 0;
+        t[0][2] = 0;
+        t[1][0] = 0;
+        t[1][1] = 1;
+        t[1][2] = 0;
+        t[2][0] = dx;
+        t[2][1] = dy;
+        t[2][2] = 1;
+
+        t2[0][0] = 1;
+        t2[0][1] = 0;
+        t2[0][2] = 0;
+        t2[1][0] = 0;
+        t2[1][1] = 1;
+        t2[1][2] = 0;
+        t2[2][0] = centro.x;
+        t2[2][1] = centro.y;
+        t2[2][2] = 1;
+
+        m[0][0] = 1;
+        m[0][1] = 0;
+        m[0][2] = 0;
+        m[1][0] = 0;
+        m[1][1] = 1;
+        m[1][2] = 0;
+        m[2][0] = 0;
+        m[2][1] = 0;
+        m[2][2] = 1;
+
+        for(unsigned int i=0; i<3; i++)
+	{
+		for(unsigned int j=0; j<3; j++)
+		{
+			for(unsigned int k=0; k<3; k++)
+			{
+				sum += m[i][k] * t1[k][j];
+			}
+			mf[i][j]=sum;
+			sum=0;
+		}
+	}
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        m[i][j]=mf[i][j];
+                }
+        }
+        if(trans){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        sum += m[i][k] * t[k][j];
+			        }
+			        mf[i][j]=sum;
+			        sum=0;
+		        }
+	        }
+        }   
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        m[i][j]=mf[i][j];
+                }
+        }
+        if(escal){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        sum += m[i][k] * esc[k][j];
+			        }
+			        mf[i][j]=sum;
+			        sum=0;
+		        }
+	        }
+        }   
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        m[i][j]=mf[i][j];
+                }
+        }
+        if(rota){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        sum += m[i][k] * rot[k][j];
+			        }
+			        mf[i][j]=sum;
+			        sum=0;
+		        }
+	        }
+        }    
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        m[i][j]=mf[i][j];
+                }
+        }
+        for(unsigned int i=0; i<3; i++)
+	{
+		for(unsigned int j=0; j<3; j++)
+		{
+			for(unsigned int k=0; k<3; k++)
+			{
+				sum += m[i][k] * t2[k][j];
+			}
+			mf[i][j]=sum;
+			sum=0;
+		}
+	}
+
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].Homogeneo(mf[0], mf[1], mf[2]);
+        }
 };
 
 #pragma package(smart_init)

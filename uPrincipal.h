@@ -63,6 +63,28 @@ __published:	// IDE-managed Components
         TSpeedButton *SpeedButton4;
         TEdit *EdRaioCirculo;
         TButton *BtnNovoCirculo;
+        TEdit *EdDyTrans;
+        TEdit *EdSyEscalona;
+        TEdit *EdAnguloRotacao;
+        TButton *BtnTranslada;
+        TButton *BtnEscalonaNormal;
+        TButton *BtnRotacionaNormal;
+        TEdit *EdDxTrans;
+        TEdit *EdSxEscalona;
+        TButton *BtnRefletirTotal;
+        TButton *BtnRefletirEmX;
+        TButton *BtnRefletirEmY;
+        TLabel *LabelDx;
+        TLabel *LabelDy;
+        TLabel *LabelSx;
+        TLabel *LabelSy;
+        TLabel *Label2;
+        TButton *Button6;
+        TGroupBox *GroupBoxHomo;
+        TCheckBox *Translada;
+        TCheckBox *Escalona;
+        TCheckBox *Rotaciona;
+        TButton *BtnExeHomo;
         void __fastcall Image1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y);
         void __fastcall BtnNovoComMouseClick(TObject *Sender);
@@ -90,6 +112,14 @@ __published:	// IDE-managed Components
         void __fastcall SpeedButton3Click(TObject *Sender);
         void __fastcall SpeedButton4Click(TObject *Sender);
         void __fastcall BtnNovoCirculoClick(TObject *Sender);
+        void __fastcall Button6Click(TObject *Sender);
+        void __fastcall BtnTransladaClick(TObject *Sender);
+        void __fastcall BtnEscalonaNormalClick(TObject *Sender);
+        void __fastcall BtnRefletirTotalClick(TObject *Sender);
+        void __fastcall BtnRefletirEmXClick(TObject *Sender);
+        void __fastcall BtnRefletirEmYClick(TObject *Sender);
+        void __fastcall BtnRotacionaNormalClick(TObject *Sender);
+        void __fastcall BtnExeHomoClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         void atualizaCoordenadaMundo();

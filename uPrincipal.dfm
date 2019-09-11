@@ -47,8 +47,8 @@ object Form1: TForm1
     Top = 0
     Width = 657
     Height = 529
-    ActivePage = TabSheetMundoVP
-    TabIndex = 1
+    ActivePage = TabSheetPoligonos
+    TabIndex = 0
     TabOrder = 1
     object TabSheetPoligonos: TTabSheet
       Caption = 'Poligonos'
@@ -98,8 +98,8 @@ object Form1: TForm1
         Top = 136
         Width = 649
         Height = 369
-        ActivePage = TabSheetdicionaPoligono
-        TabIndex = 0
+        ActivePage = TabSheet1
+        TabIndex = 1
         TabOrder = 3
         object TabSheetdicionaPoligono: TTabSheet
           Caption = 'Adicionar'
@@ -121,6 +121,15 @@ object Form1: TForm1
                 Caption = 'Novo Com Mouse'
                 TabOrder = 0
                 OnClick = BtnNovoComMouseClick
+              end
+              object Button6: TButton
+                Left = 152
+                Top = 88
+                Width = 75
+                Height = 25
+                Caption = 'Button6'
+                TabOrder = 1
+                OnClick = Button6Click
               end
             end
             object TabSheet3: TTabSheet
@@ -149,6 +158,41 @@ object Form1: TForm1
         object TabSheet1: TTabSheet
           Caption = 'Editar'
           ImageIndex = 2
+          object LabelDx: TLabel
+            Left = 304
+            Top = 56
+            Width = 13
+            Height = 13
+            Caption = 'Dx'
+          end
+          object LabelDy: TLabel
+            Left = 368
+            Top = 56
+            Width = 13
+            Height = 13
+            Caption = 'Dy'
+          end
+          object LabelSx: TLabel
+            Left = 304
+            Top = 128
+            Width = 12
+            Height = 13
+            Caption = 'Sx'
+          end
+          object LabelSy: TLabel
+            Left = 368
+            Top = 128
+            Width = 12
+            Height = 13
+            Caption = 'Sy'
+          end
+          object Label2: TLabel
+            Left = 304
+            Top = 256
+            Width = 81
+            Height = 13
+            Caption = #194'ngulo em Graus'
+          end
           object BtnRemoverPonto: TButton
             Left = 8
             Top = 40
@@ -166,6 +210,141 @@ object Form1: TForm1
             Caption = 'Remover Poligono'
             TabOrder = 1
             OnClick = BtnRemoverPoligonoClick
+          end
+          object EdDyTrans: TEdit
+            Left = 368
+            Top = 72
+            Width = 57
+            Height = 25
+            TabOrder = 2
+            Text = '0,0'
+          end
+          object EdSyEscalona: TEdit
+            Left = 368
+            Top = 144
+            Width = 57
+            Height = 25
+            TabOrder = 3
+            Text = '1,0'
+          end
+          object EdAnguloRotacao: TEdit
+            Left = 304
+            Top = 272
+            Width = 121
+            Height = 25
+            TabOrder = 4
+            Text = '0,0'
+          end
+          object BtnTranslada: TButton
+            Left = 448
+            Top = 72
+            Width = 145
+            Height = 25
+            Caption = 'Transla'#231#227'o'
+            TabOrder = 5
+            OnClick = BtnTransladaClick
+          end
+          object BtnEscalonaNormal: TButton
+            Left = 448
+            Top = 144
+            Width = 145
+            Height = 25
+            Caption = 'Escalonamento'
+            TabOrder = 6
+            OnClick = BtnEscalonaNormalClick
+          end
+          object BtnRotacionaNormal: TButton
+            Left = 448
+            Top = 272
+            Width = 145
+            Height = 25
+            Caption = 'Rota'#231#227'o'
+            TabOrder = 7
+            OnClick = BtnRotacionaNormalClick
+          end
+          object EdDxTrans: TEdit
+            Left = 304
+            Top = 72
+            Width = 57
+            Height = 25
+            TabOrder = 8
+            Text = '0,0'
+          end
+          object EdSxEscalona: TEdit
+            Left = 304
+            Top = 144
+            Width = 57
+            Height = 25
+            TabOrder = 9
+            Text = '1,0'
+          end
+          object BtnRefletirTotal: TButton
+            Left = 296
+            Top = 208
+            Width = 97
+            Height = 25
+            Caption = 'Refletir Total'
+            TabOrder = 10
+            OnClick = BtnRefletirTotalClick
+          end
+          object BtnRefletirEmX: TButton
+            Left = 408
+            Top = 208
+            Width = 97
+            Height = 25
+            Caption = 'Refletir em X'
+            TabOrder = 11
+            OnClick = BtnRefletirEmXClick
+          end
+          object BtnRefletirEmY: TButton
+            Left = 520
+            Top = 208
+            Width = 97
+            Height = 25
+            Caption = 'Refletir em Y'
+            TabOrder = 12
+            OnClick = BtnRefletirEmYClick
+          end
+          object GroupBoxHomo: TGroupBox
+            Left = 56
+            Top = 112
+            Width = 185
+            Height = 193
+            Caption = ' Homogeneo '
+            TabOrder = 13
+            object Translada: TCheckBox
+              Left = 16
+              Top = 32
+              Width = 97
+              Height = 17
+              Caption = 'Translada'
+              TabOrder = 0
+            end
+            object Escalona: TCheckBox
+              Left = 16
+              Top = 72
+              Width = 97
+              Height = 17
+              Caption = 'Escalona'
+              TabOrder = 1
+            end
+            object Rotaciona: TCheckBox
+              Left = 16
+              Top = 112
+              Width = 97
+              Height = 17
+              Caption = 'Rotaciona'
+              TabOrder = 2
+            end
+            object BtnExeHomo: TButton
+              Left = 16
+              Top = 152
+              Width = 153
+              Height = 25
+              Caption = 'Executar'
+              TabOrder = 3
+              OnClick = BtnExeHomoClick
+            end
           end
         end
       end

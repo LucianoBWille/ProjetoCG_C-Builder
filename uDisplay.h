@@ -18,6 +18,7 @@ class DisplayFile{
         void desenha(TCanvas* canvas, Janela mundo, Janela vp,
                 int poligonoSelecionado, int pontoSelecionado, int tipoReta);
         void removePoligono(int indice);
+        void clippPoligonosPorPonto(Janela areaDeClipping, int *contaId);
 };
 #endif
   

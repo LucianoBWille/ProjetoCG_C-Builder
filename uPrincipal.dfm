@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 178
-  Top = 144
+  Left = 185
+  Top = 129
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Form1'
@@ -109,8 +109,8 @@ object Form1: TForm1
             Top = 0
             Width = 641
             Height = 337
-            ActivePage = TabSheet3
-            TabIndex = 1
+            ActivePage = TabSheet2
+            TabIndex = 0
             TabOrder = 0
             object TabSheet2: TTabSheet
               Caption = 'Poligono'
@@ -130,7 +130,6 @@ object Form1: TForm1
                 Height = 25
                 Caption = 'Button6'
                 TabOrder = 1
-                OnClick = Button6Click
               end
             end
             object TabSheet3: TTabSheet
@@ -428,33 +427,33 @@ object Form1: TForm1
         Height = 13
         Caption = 'Porcentagem dos passos'
       end
-      object SpeedButton1: TSpeedButton
+      object SpeedBtnUpRight: TSpeedButton
         Left = 136
         Top = 32
         Width = 33
         Height = 30
-        OnClick = SpeedButton1Click
+        OnClick = SpeedBtnUpRightClick
       end
-      object SpeedButton2: TSpeedButton
+      object SpeedBtnUpLeft: TSpeedButton
         Left = 32
         Top = 32
         Width = 31
         Height = 30
-        OnClick = SpeedButton2Click
+        OnClick = SpeedBtnUpLeftClick
       end
-      object SpeedButton3: TSpeedButton
+      object SpeedBtnDownLeft: TSpeedButton
         Left = 32
         Top = 136
         Width = 31
         Height = 33
-        OnClick = SpeedButton3Click
+        OnClick = SpeedBtnDownLeftClick
       end
-      object SpeedButton4: TSpeedButton
+      object SpeedBtnDownRight: TSpeedButton
         Left = 136
         Top = 136
         Width = 33
         Height = 33
-        OnClick = SpeedButton4Click
+        OnClick = SpeedBtnDownRightClick
       end
       object BtnZoomIn: TButton
         Left = 214
@@ -537,9 +536,27 @@ object Form1: TForm1
         Top = 324
         Width = 185
         Height = 129
-        Caption = 'Tipo de Reta'
+        Caption = ' Tipo de Reta '
         TabOrder = 9
         OnClick = RadioGroup1Click
+      end
+      object RadioGroupClipping: TRadioGroup
+        Left = 376
+        Top = 216
+        Width = 185
+        Height = 153
+        Caption = ' Clipping '
+        TabOrder = 10
+        OnClick = RadioGroupClippingClick
+      end
+      object BtnClipp: TButton
+        Left = 376
+        Top = 368
+        Width = 185
+        Height = 25
+        Caption = 'Clipp'
+        TabOrder = 11
+        OnClick = BtnClippClick
       end
     end
   end

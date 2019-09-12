@@ -57,10 +57,10 @@ __published:	// IDE-managed Components
         TPageControl *PageControl3;
         TTabSheet *TabSheet2;
         TTabSheet *TabSheet3;
-        TSpeedButton *SpeedButton1;
-        TSpeedButton *SpeedButton2;
-        TSpeedButton *SpeedButton3;
-        TSpeedButton *SpeedButton4;
+        TSpeedButton *SpeedBtnUpRight;
+        TSpeedButton *SpeedBtnUpLeft;
+        TSpeedButton *SpeedBtnDownLeft;
+        TSpeedButton *SpeedBtnDownRight;
         TEdit *EdRaioCirculo;
         TButton *BtnNovoCirculo;
         TEdit *EdDyTrans;
@@ -85,6 +85,8 @@ __published:	// IDE-managed Components
         TCheckBox *Escalona;
         TCheckBox *Rotaciona;
         TButton *BtnExeHomo;
+        TRadioGroup *RadioGroupClipping;
+        TButton *BtnClipp;
         void __fastcall Image1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y);
         void __fastcall BtnNovoComMouseClick(TObject *Sender);
@@ -107,12 +109,11 @@ __published:	// IDE-managed Components
         void __fastcall ListBoxPontosClick(TObject *Sender);
         void __fastcall BtnDesselecionarClick(TObject *Sender);
         void __fastcall RadioGroup1Click(TObject *Sender);
-        void __fastcall SpeedButton2Click(TObject *Sender);
-        void __fastcall SpeedButton1Click(TObject *Sender);
-        void __fastcall SpeedButton3Click(TObject *Sender);
-        void __fastcall SpeedButton4Click(TObject *Sender);
+        void __fastcall SpeedBtnUpLeftClick(TObject *Sender);
+        void __fastcall SpeedBtnUpRightClick(TObject *Sender);
+        void __fastcall SpeedBtnDownLeftClick(TObject *Sender);
+        void __fastcall SpeedBtnDownRightClick(TObject *Sender);
         void __fastcall BtnNovoCirculoClick(TObject *Sender);
-        void __fastcall Button6Click(TObject *Sender);
         void __fastcall BtnTransladaClick(TObject *Sender);
         void __fastcall BtnEscalonaNormalClick(TObject *Sender);
         void __fastcall BtnRefletirTotalClick(TObject *Sender);
@@ -120,11 +121,14 @@ __published:	// IDE-managed Components
         void __fastcall BtnRefletirEmYClick(TObject *Sender);
         void __fastcall BtnRotacionaNormalClick(TObject *Sender);
         void __fastcall BtnExeHomoClick(TObject *Sender);
+        void __fastcall BtnClippClick(TObject *Sender);
+        void __fastcall RadioGroupClippingClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         void atualizaCoordenadaMundo();
         void atualizaListaPoligonos();
         void atualizaListaPontos();
+        void atualizaTela();
         void desselecionaPoligonos();
         void desselecionaPontos();
         double XVP2W(int xVP, Janela, Janela);

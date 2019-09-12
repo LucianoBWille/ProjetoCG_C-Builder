@@ -12,32 +12,35 @@ Ponto::Ponto(double nx, double ny){
         x = nx;
         y = ny;
 }
+//---------------------------------------------------------------------------
 Ponto::Ponto(){
         x = y = 1;
 };
+//---------------------------------------------------------------------------
 int Ponto::XW2VP(Janela mundo, Janela vp){
         return (this->x - mundo.xMin)/(mundo.xMax - mundo.xMin)*(vp.xMax - vp.xMin);
 };
+//---------------------------------------------------------------------------
 int Ponto::YW2VP(Janela mundo, Janela vp){
         return (1-((this->y - mundo.yMin)/(mundo.yMax - mundo.yMin)))*(vp.yMax - vp.yMin);
 };
-
+//---------------------------------------------------------------------------
 void Ponto::transladaNormal(float dx, float dy){
         this->x += dx;
         this->y += dy;
 };
-
+//---------------------------------------------------------------------------
 void Ponto::escalonaNormal(float sx, float sy){
         this->x = this->x * sx;
         this->y = this->y * sy;
 };
-
+//---------------------------------------------------------------------------
 void Ponto::rotacionaNormal(float angulo){
         float aux = this->x;
         this->x = this->x * cos(angulo) - this->y * sin(angulo);
         this->y = aux * sin(angulo) + this->y * cos(angulo);
 };
-
+//---------------------------------------------------------------------------
 void Ponto::Homogeneo(float matrizDeMudanca[3][3]){
         float pontoAuxiliar[1][3], pontoFinal[1][3], soma = 0;
 
@@ -55,5 +58,20 @@ void Ponto::Homogeneo(float matrizDeMudanca[3][3]){
         }
         this->x = pontoFinal[0][0];
         this->y = pontoFinal[0][1];
+};
+//---------------------------------------------------------------------------
+void Ponto::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp){
+        canvas->Pen->Width = 3;
+        int tam = 5;
+        canvas->Ellipse( XW2VP(mundo, vp) - tam, YW2VP(mundo, vp) - tam,
+                         XW2VP(mundo, vp) + tam, YW2VP(mundo, vp) + tam );
+};
+//---------------------------------------------------------------------------
+int Ponto::naAreaDeClipping(Janela areaDeClipping){
+        if( this->x < areaDeClipping.xMin || this->x > areaDeClipping.xMax ||
+                        this->y < areaDeClipping.yMin || this->y > areaDeClipping.yMax)
+                return 0;
+        else
+                return 1;
 };
 #pragma package(smart_init)

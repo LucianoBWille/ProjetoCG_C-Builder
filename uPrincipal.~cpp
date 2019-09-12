@@ -496,3 +496,24 @@ void __fastcall TForm1::BtnRotacionaNormalClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
+{
+        float dx, dy, sx, sy, angulo;
+        dx = StrToFloat(EdDxTrans->Text);   
+        dy = StrToFloat(EdDyTrans->Text);
+        sx = StrToFloat(EdSxEscalona->Text);
+        sy = StrToFloat(EdSyEscalona->Text);
+        angulo = StrToFloat(EdAnguloRotacao->Text);
+        bool t, e, r;
+        t = Translada->State;
+        e = Escalona->State;
+        r = Rotaciona->State;
+        display.poligonos[tempIndexListBoxPoligonos].Homogeniza(
+                        Translada->State, Escalona->State, Rotaciona->State,
+                        dx, dy, sx, sy, angulo);
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+}
+//---------------------------------------------------------------------------
+

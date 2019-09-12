@@ -436,83 +436,143 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 
 void __fastcall TForm1::BtnTransladaClick(TObject *Sender)
 {
-        float x,y;
-        x = StrToFloat(EdDxTrans->Text);
-        y = StrToFloat(EdDyTrans->Text);
-        display.poligonos[tempIndexListBoxPoligonos].transladaNormal(x, y);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                float x,y;
+                x = StrToFloat(EdDxTrans->Text);
+                y = StrToFloat(EdDyTrans->Text);
+                display.poligonos[tempIndexListBoxPoligonos].transladaNormal(x, y);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para mover!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 
 void __fastcall TForm1::BtnEscalonaNormalClick(TObject *Sender)
 {
-        float x,y;
-        x = StrToFloat(EdSxEscalona->Text);
-        y = StrToFloat(EdSyEscalona->Text);
-        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(x, y);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                float x,y;
+                x = StrToFloat(EdSxEscalona->Text);
+                y = StrToFloat(EdSyEscalona->Text);
+                display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(x, y);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para escalonar!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::BtnRefletirTotalClick(TObject *Sender)
 {
-        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, -1);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, -1);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para refletir!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::BtnRefletirEmXClick(TObject *Sender)
 {
-        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, 1);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, 1);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para refletir!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::BtnRefletirEmYClick(TObject *Sender)
 {
-        display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(1, -1);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(1, -1);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para refletir!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::BtnRotacionaNormalClick(TObject *Sender)
 {
-        float angulo = StrToFloat(EdAnguloRotacao->Text);
-        display.poligonos[tempIndexListBoxPoligonos].rotacionaNormal(angulo);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                float angulo = StrToFloat(EdAnguloRotacao->Text);
+                display.poligonos[tempIndexListBoxPoligonos].rotacionaNormal(angulo);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para rotacionar!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
 {
-        float dx, dy, sx, sy, angulo;
-        dx = StrToFloat(EdDxTrans->Text);   
-        dy = StrToFloat(EdDyTrans->Text);
-        sx = StrToFloat(EdSxEscalona->Text);
-        sy = StrToFloat(EdSyEscalona->Text);
-        angulo = StrToFloat(EdAnguloRotacao->Text);
-        bool t, e, r;
-        t = true;
-        e = true;
-        r = true;
-        display.poligonos[tempIndexListBoxPoligonos].Homogeniza(
-                        t, e, r, dx, dy, sx, sy, angulo);
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        if(tempIndexListBoxPoligonos > 1){
+                float dx, dy, sx, sy, angulo;
+                dx = StrToFloat(EdDxTrans->Text);
+                dy = StrToFloat(EdDyTrans->Text);
+                sx = StrToFloat(EdSxEscalona->Text);
+                sy = StrToFloat(EdSyEscalona->Text);
+                angulo = StrToFloat(EdAnguloRotacao->Text);
+                display.poligonos[tempIndexListBoxPoligonos].Homogeniza(
+                                Translada->State, Escalona->State, Rotaciona->State,
+                                dx, dy, sx, sy, angulo);
+                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+                atualizaListaPoligonos();
+
+                Ponto pontoCentroPoligono = display.poligonos[
+                             tempIndexListBoxPoligonos].calculaCentroPoligono();
+                Image1->Canvas->Ellipse(pontoCentroPoligono.XW2VP(mundo, vp)+5,
+                                        pontoCentroPoligono.YW2VP(mundo, vp)+5,
+                                        pontoCentroPoligono.XW2VP(mundo, vp)-5,
+                                        pontoCentroPoligono.YW2VP(mundo, vp)-5);
+        }else{
+                if(tempIndexListBoxPoligonos >= 0){
+                        ShowMessage("Você não pode alterar os eixos!");
+                }else{
+                        ShowMessage("Selecione um poligono para executara ação homegenea!");
+                }
+        }
 }
 //---------------------------------------------------------------------------
 

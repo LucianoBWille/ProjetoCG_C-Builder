@@ -136,11 +136,7 @@ void Poligono::removePonto(int indice){
 };
 
 void Poligono::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice){
-        int x = pontos[indice].XW2VP(mundo, vp);
-        int y = pontos[indice].YW2VP(mundo, vp);
-        canvas->Pen->Width = 3;
-        int tam = 5;
-        canvas->Ellipse( x - tam, y - tam, x + tam, y + tam );
+        pontos[indice].destacaPonto(canvas, mundo, vp);
 };
 
 Poligono Poligono::criaPoligonoCirculo(int r){
@@ -161,7 +157,6 @@ Poligono Poligono::criaPoligonoCirculo(int r){
         parte.push_back(p6);
         Poligono p7;
         parte.push_back(p7);
-        Poligono pol;
 
         int x, y, p;
         x = 0;
@@ -196,13 +191,14 @@ Poligono Poligono::criaPoligonoCirculo(int r){
                         parte[7].pontos.insert(parte[7].pontos.begin() + 1, Ponto(y, -x));
                 }
         }
+        Poligono poligonoResultado;
         for(unsigned int i = 0; i<8; i++){
                 for(unsigned int j=0; j<parte[i].pontos.size(); j++){
-                        pol.pontos.push_back(parte[i].pontos[j]);
+                        poligonoResultado.pontos.push_back(parte[i].pontos[j]);
                 }
         }
-        pol.pontos.push_back(parte[0].pontos[0]);
-        return pol;
+        poligonoResultado.pontos.push_back(parte[0].pontos[0]);
+        return poligonoResultado;
 
 };
 
@@ -219,13 +215,14 @@ void Poligono::escalonaNormal(float sx, float sy){
 };
 
 void Poligono::rotacionaNormal(float angulo){
-        float angRad = (M_PI / 180) * angulo;
+        float anguloEmRadianos = (M_PI / 180) * angulo;
         for(unsigned int i = 0; i < pontos.size(); i++){
-                pontos[i].rotacionaNormal(angRad);
+                pontos[i].rotacionaNormal(anguloEmRadianos);
         }
 };
 
 Ponto Poligono::calculaCentroPoligono(){
+        Ponto pontoTemporario;          /*
         double maiorX, maiorY, menorX, menorY;
         for (unsigned int i = 0; i < pontos.size(); i++){
                 if(i==0){
@@ -251,10 +248,18 @@ Ponto Poligono::calculaCentroPoligono(){
                         }
                 }
         }
-        Ponto p;
-        p.x = (maiorX + menorX)/2;
-        p.y = (maiorY + menorY)/2;
-        return p;
+        pontoTemporario.x = (maiorX + menorX)/2;
+        pontoTemporario.y = (maiorY + menorY)/2; */
+
+        int tamanhoPontos = pontos.size();
+        float somaX = 0, somaY = 0;
+        for(int i = 0; i < tamanhoPontos; i++){
+                somaX += pontos[i].x;
+                somaY += pontos[i].y;
+        }
+        pontoTemporario.x = somaX/tamanhoPontos;
+        pontoTemporario.y = somaY/tamanhoPontos;
+        return pontoTemporario;
 };
 
 void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaBool,
@@ -266,16 +271,16 @@ void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaB
                 transladaParaOrigemPoligono[3][3],
                 matrizAuxiliar[3][3],
                 matrizFinal[3][3];
-        float angRad = (M_PI / 180) * angulo, soma = 0;
-        Ponto centro = calculaCentroPoligono();
+        float anguloEmRadianos = (M_PI / 180) * angulo, soma = 0;
+        Ponto pontoCentroPoligono = calculaCentroPoligono();
         transladaParaMeioDoMundo[0][0] = 1;
         transladaParaMeioDoMundo[0][1] = 0;
         transladaParaMeioDoMundo[0][2] = 0;
         transladaParaMeioDoMundo[1][0] = 0;
         transladaParaMeioDoMundo[1][1] = 1;
         transladaParaMeioDoMundo[1][2] = 0;
-        transladaParaMeioDoMundo[2][0] = -centro.x;
-        transladaParaMeioDoMundo[2][1] = -centro.y;
+        transladaParaMeioDoMundo[2][0] = -pontoCentroPoligono.x;
+        transladaParaMeioDoMundo[2][1] = -pontoCentroPoligono.y;
         transladaParaMeioDoMundo[2][2] = 1;
 
         escalonaDoUsuario[0][0] = sx;
@@ -288,11 +293,11 @@ void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaB
         escalonaDoUsuario[2][1] = 0;
         escalonaDoUsuario[2][2] = 1;
 
-        rotacionaDoUsuario[0][0] = cos(angRad);
-        rotacionaDoUsuario[0][1] = sin(angRad);
+        rotacionaDoUsuario[0][0] = cos(anguloEmRadianos);
+        rotacionaDoUsuario[0][1] = sin(anguloEmRadianos);
         rotacionaDoUsuario[0][2] = 0;
-        rotacionaDoUsuario[1][0] = -sin(angRad);
-        rotacionaDoUsuario[1][1] = cos(angRad);
+        rotacionaDoUsuario[1][0] = -sin(anguloEmRadianos);
+        rotacionaDoUsuario[1][1] = cos(anguloEmRadianos);
         rotacionaDoUsuario[1][2] = 0;
         rotacionaDoUsuario[2][0] = 0;
         rotacionaDoUsuario[2][1] = 0;
@@ -314,8 +319,8 @@ void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaB
         transladaParaOrigemPoligono[1][0] = 0;
         transladaParaOrigemPoligono[1][1] = 1;
         transladaParaOrigemPoligono[1][2] = 0;
-        transladaParaOrigemPoligono[2][0] = centro.x;
-        transladaParaOrigemPoligono[2][1] = centro.y;
+        transladaParaOrigemPoligono[2][0] = pontoCentroPoligono.x;
+        transladaParaOrigemPoligono[2][1] = pontoCentroPoligono.y;
         transladaParaOrigemPoligono[2][2] = 1;
 
         matrizAuxiliar[0][0] = 1;

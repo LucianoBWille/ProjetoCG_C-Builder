@@ -136,11 +136,7 @@ void Poligono::removePonto(int indice){
 };
 
 void Poligono::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice){
-        int x = pontos[indice].XW2VP(mundo, vp);
-        int y = pontos[indice].YW2VP(mundo, vp);
-        canvas->Pen->Width = 3;
-        int tam = 5;
-        canvas->Ellipse( x - tam, y - tam, x + tam, y + tam );
+        pontos[indice].destacaPonto(canvas, mundo, vp);
 };
 
 Poligono Poligono::criaPoligonoCirculo(int r){
@@ -434,4 +430,12 @@ void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaB
         }
 };
 
+void Poligono::clippPoligonoPorPonto(Janela areaDeClipping){
+        Poligono poligonoAuxiliar;
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                if (pontos[i].naAreaDeClipping(areaDeClipping) == 1)
+                        poligonoAuxiliar.pontos.push_back(pontos[i]);
+        }
+        pontos = poligonoAuxiliar.pontos;
+};
 #pragma package(smart_init)

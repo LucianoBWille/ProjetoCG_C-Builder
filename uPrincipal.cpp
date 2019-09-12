@@ -15,6 +15,7 @@ TForm1 *Form1;
 Ponto aux;
 Janela mundo(-250.0,-250.0,250.0,250.0);
 Janela vp(0,0,500,500);
+Janela areaDeClipping(-100, -100, 100, 100);
 Poligono poligono;
 DisplayFile display;
 int contaId=0;
@@ -22,6 +23,7 @@ bool novo = false;
 int tempIndexListBoxPoligonos = -1;
 int tempIndexListBoxPontos = -1;
 int tipoReta = 0;
+int tipoClipping = 0;
 
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -43,14 +45,17 @@ __fastcall TForm1::TForm1(TComponent* Owner)
         display.poligonos.push_back(poligono);
         poligono.pontos.clear();
 
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        atualizaListaPoligonos();
+        atualizaTela();
 
         RadioGroup1->Items->Add("Normal");
         RadioGroup1->Items->Add("DDA");
         RadioGroup1->Items->Add("Bresenham");
         RadioGroup1->ItemIndex = 0;
+
+        RadioGroupClipping->Items->Add("Sem Clipping");
+        RadioGroupClipping->Items->Add("Clipping de pontos");
+        RadioGroupClipping->Items->Add("Clipping de linha");
+        RadioGroupClipping->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 double TForm1::XVP2W(int xVP, Janela mundo, Janela vp){
@@ -72,8 +77,7 @@ void TForm1::atualizaCoordenadaMundo(){
         display.poligonos[1].pontos[0].x = mundo.xMin;
         display.poligonos[1].pontos[1].x = mundo.xMax;
 
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
+        atualizaTela();
 }
 //---------------------------------------------------------------------------
 void TForm1::atualizaListaPoligonos(){
@@ -108,6 +112,12 @@ void TForm1::atualizaListaPontos(){
         }
 }
 //---------------------------------------------------------------------------
+void TForm1::atualizaTela(){
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
+        atualizaListaPoligonos();
+};
+//---------------------------------------------------------------------------
 void TForm1::desselecionaPoligonos(){
         ListBoxPoligonos->ItemIndex = -1;
         tempIndexListBoxPoligonos = -1;
@@ -138,8 +148,7 @@ void __fastcall TForm1::BtnNovoComMouseClick(TObject *Sender)
         novo = true;
         desselecionaPoligonos();
         desselecionaPontos();
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
+        atualizaTela();
 };
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Image1MouseDown(TObject *Sender,
@@ -162,11 +171,9 @@ void __fastcall TForm1::Image1MouseDown(TObject *Sender,
 
                         novo = false;
 
-                        display.desenha(Image1->Canvas, mundo, vp,
-                                                tempIndexListBoxPoligonos,
-                                                tempIndexListBoxPontos, tipoReta);
-
-                        atualizaListaPoligonos();
+                        tempIndexListBoxPoligonos = display.poligonos.size()-1;
+                        desselecionaPontos();
+                        atualizaTela();
                 }
         }else{
                 ShowMessage("Clique em 'Novo Poligono'");
@@ -260,7 +267,7 @@ void __fastcall TForm1::SpeedBtnCenterClick(TObject *Sender)
         atualizaCoordenadaMundo();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SpeedButton1Click(TObject *Sender)
+void __fastcall TForm1::SpeedBtnUpRightClick(TObject *Sender)
 {            
         float passo = StrToFloat(Edit1->Text)/2;
         float y = mundo.yMax - mundo.yMin;
@@ -273,7 +280,7 @@ void __fastcall TForm1::SpeedButton1Click(TObject *Sender)
         atualizaCoordenadaMundo();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
+void __fastcall TForm1::SpeedBtnUpLeftClick(TObject *Sender)
 {             
         float passo = StrToFloat(Edit1->Text)/2;
         float y = mundo.yMax - mundo.yMin;
@@ -286,7 +293,7 @@ void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
         atualizaCoordenadaMundo();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
+void __fastcall TForm1::SpeedBtnDownLeftClick(TObject *Sender)
 {
         float passo = StrToFloat(Edit1->Text)/2;
         float y = mundo.yMax - mundo.yMin;
@@ -299,7 +306,7 @@ void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
         atualizaCoordenadaMundo();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SpeedButton4Click(TObject *Sender)
+void __fastcall TForm1::SpeedBtnDownRightClick(TObject *Sender)
 {        
         float passo = StrToFloat(Edit1->Text)/2;
         float y = mundo.yMax - mundo.yMin;
@@ -339,10 +346,7 @@ void __fastcall TForm1::BtnRemoverPoligonoClick(TObject *Sender)
                         display.removePoligono(ListBoxPoligonos->ItemIndex);
                         desselecionaPoligonos();
                         desselecionaPontos();
-                        display.desenha(Image1->Canvas, mundo, vp,
-                                                tempIndexListBoxPoligonos,
-                                                tempIndexListBoxPontos, tipoReta);
-                        atualizaListaPoligonos();
+                        atualizaTela();
                         contaId--;
                  }
         }else{
@@ -364,10 +368,7 @@ void __fastcall TForm1::BtnRemoverPontoClick(TObject *Sender)
                                 display.poligonos[tempIndexListBoxPoligonos].
                                               removePonto(tempIndexListBoxPontos);
                                 desselecionaPontos();
-                                display.desenha(Image1->Canvas, mundo, vp,
-                                                tempIndexListBoxPoligonos,
-                                                tempIndexListBoxPontos, tipoReta);
-                                atualizaListaPoligonos();
+                                atualizaTela();
                         }
                 }else{
                         ShowMessage("Selecione um poligono para remover!");
@@ -386,8 +387,7 @@ void __fastcall TForm1::BtnRemoverPontoClick(TObject *Sender)
 void __fastcall TForm1::ListBoxPontosClick(TObject *Sender)
 {
         tempIndexListBoxPontos = ListBoxPontos->ItemIndex;
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
+        atualizaTela();
 }
 //---------------------------------------------------------------------------
 
@@ -395,9 +395,7 @@ void __fastcall TForm1::BtnDesselecionarClick(TObject *Sender)
 {
         desselecionaPoligonos();
         desselecionaPontos();
-        atualizaListaPontos();
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
+        atualizaTela();
 }
 //---------------------------------------------------------------------------
 
@@ -405,8 +403,7 @@ void __fastcall TForm1::BtnDesselecionarClick(TObject *Sender)
 void __fastcall TForm1::RadioGroup1Click(TObject *Sender)
 {
         tipoReta = RadioGroup1->ItemIndex;
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
+        atualizaTela();
 }
 //---------------------------------------------------------------------------
 
@@ -417,23 +414,11 @@ void __fastcall TForm1::BtnNovoCirculoClick(TObject *Sender)
         poligono.id = contaId++;
         display.poligonos.push_back(poligono);
         desselecionaPoligonos();
-        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                tempIndexListBoxPontos, tipoReta);
-        display.poligonos[display.poligonos.size()-1
-                        ].desenha(Image1->Canvas, mundo, vp, tipoReta, true);
-        atualizaListaPoligonos();
+        desselecionaPontos();
+        tempIndexListBoxPoligonos = display.poligonos.size()-1;
+        atualizaTela();
 }
 //---------------------------------------------------------------------------
-
-
-void __fastcall TForm1::Button6Click(TObject *Sender)
-{
-        Ponto p;
-        p = display.poligonos[display.poligonos.size()-1].calculaCentroPoligono();
-        Image1->Canvas->Ellipse(p.XW2VP(mundo, vp)+3,p.YW2VP(mundo, vp)+3,p.XW2VP(mundo, vp)-3,p.YW2VP(mundo, vp)-3);
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::BtnTransladaClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
@@ -441,9 +426,7 @@ void __fastcall TForm1::BtnTransladaClick(TObject *Sender)
                 x = StrToFloat(EdDxTrans->Text);
                 y = StrToFloat(EdDyTrans->Text);
                 display.poligonos[tempIndexListBoxPoligonos].transladaNormal(x, y);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -453,8 +436,6 @@ void __fastcall TForm1::BtnTransladaClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::BtnEscalonaNormalClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
@@ -462,9 +443,7 @@ void __fastcall TForm1::BtnEscalonaNormalClick(TObject *Sender)
                 x = StrToFloat(EdSxEscalona->Text);
                 y = StrToFloat(EdSyEscalona->Text);
                 display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(x, y);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -474,14 +453,11 @@ void __fastcall TForm1::BtnEscalonaNormalClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::BtnRefletirTotalClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
                 display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, -1);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -491,14 +467,11 @@ void __fastcall TForm1::BtnRefletirTotalClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::BtnRefletirEmXClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
                 display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(-1, 1);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -508,14 +481,11 @@ void __fastcall TForm1::BtnRefletirEmXClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::BtnRefletirEmYClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
                 display.poligonos[tempIndexListBoxPoligonos].escalonaNormal(1, -1);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -525,15 +495,12 @@ void __fastcall TForm1::BtnRefletirEmYClick(TObject *Sender)
         }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::BtnRotacionaNormalClick(TObject *Sender)
 {
         if(tempIndexListBoxPoligonos > 1){
                 float angulo = StrToFloat(EdAnguloRotacao->Text);
                 display.poligonos[tempIndexListBoxPoligonos].rotacionaNormal(angulo);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
         }else{
                 if(tempIndexListBoxPoligonos >= 0){
                         ShowMessage("Você não pode alterar os eixos!");
@@ -556,12 +523,11 @@ void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
                 display.poligonos[tempIndexListBoxPoligonos].Homogeniza(
                                 Translada->State, Escalona->State, Rotaciona->State,
                                 dx, dy, sx, sy, angulo);
-                display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
-                                        tempIndexListBoxPontos, tipoReta);
-                atualizaListaPoligonos();
+                atualizaTela();
 
                 Ponto pontoCentroPoligono = display.poligonos[
                              tempIndexListBoxPoligonos].calculaCentroPoligono();
+                pontoCentroPoligono.destacaPonto(Image1->Canvas, mundo, vp);
                 Image1->Canvas->Ellipse(pontoCentroPoligono.XW2VP(mundo, vp)+5,
                                         pontoCentroPoligono.YW2VP(mundo, vp)+5,
                                         pontoCentroPoligono.XW2VP(mundo, vp)-5,
@@ -573,6 +539,23 @@ void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
                         ShowMessage("Selecione um poligono para executara ação homegenea!");
                 }
         }
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::BtnClippClick(TObject *Sender)
+{
+        switch(tipoClipping){
+                case 0: atualizaTela();
+                        break;
+                case 1: display.clippPoligonosPorPonto(areaDeClipping, &contaId);
+                        atualizaTela();
+                        break;
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::RadioGroupClippingClick(TObject *Sender)
+{
+        tipoClipping = RadioGroupClipping->ItemIndex;
 }
 //---------------------------------------------------------------------------
 

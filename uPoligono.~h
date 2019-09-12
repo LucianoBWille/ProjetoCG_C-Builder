@@ -31,8 +31,9 @@ class Poligono{
                 void escalonaNormal(float sx, float sy);
                 void rotacionaNormal(float angulo);
                 Ponto calculaCentroPoligono();
-                void Homogeniza(bool trans, bool escal, bool rota, float dx,
-                                float dy, float sx, float sy, float angulo);
+                void Homogeniza(bool transladaBool, bool escalonaBool,
+                                bool rotacionaBool, float dx, float dy,
+                                float sx, float sy, float angulo);
 
 
 

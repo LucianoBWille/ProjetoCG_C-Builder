@@ -3,6 +3,8 @@
 #ifndef uPontoH
 #define uPontoH
 
+#include <ExtCtrls.hpp>
+
 #include "uJanela.h"
 
 //---------------------------------------------------------------------------
@@ -18,6 +20,8 @@ class Ponto{
         void escalonaNormal(float sx, float sy);
         void rotacionaNormal(float angulo);
         void Homogeneo(float matrizDeMudanca[3][3]);
+        void destacaPonto(TCanvas* canvas, Janela mundo, Janela vp);
+        int naAreaDeClipping(Janela areaDeClipping);
 
 };
 #endif

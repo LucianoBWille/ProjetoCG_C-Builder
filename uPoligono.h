@@ -34,6 +34,7 @@ class Poligono{
                 void Homogeniza(bool transladaBool, bool escalonaBool,
                                 bool rotacionaBool, float dx, float dy,
                                 float sx, float sy, float angulo);
+                void clippPoligonoPorPonto(Janela areaDeClipping);
 
 
 

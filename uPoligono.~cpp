@@ -257,12 +257,172 @@ Ponto Poligono::calculaCentroPoligono(){
         return p;
 };
 
-void Poligono::escalonaHomogeneo(){
+void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaBool,
+                        float dx, float dy, float sx, float sy, float angulo){
+        float transladaParaMeioDoMundo[3][3],
+                escalonaDoUsuario[3][3],
+                rotacionaDoUsuario[3][3],
+                transladaDoUsuario[3][3],
+                transladaParaOrigemPoligono[3][3],
+                matrizAuxiliar[3][3],
+                matrizFinal[3][3];
+        float angRad = (M_PI / 180) * angulo, soma = 0;
+        Ponto centro = calculaCentroPoligono();
+        transladaParaMeioDoMundo[0][0] = 1;
+        transladaParaMeioDoMundo[0][1] = 0;
+        transladaParaMeioDoMundo[0][2] = 0;
+        transladaParaMeioDoMundo[1][0] = 0;
+        transladaParaMeioDoMundo[1][1] = 1;
+        transladaParaMeioDoMundo[1][2] = 0;
+        transladaParaMeioDoMundo[2][0] = -centro.x;
+        transladaParaMeioDoMundo[2][1] = -centro.y;
+        transladaParaMeioDoMundo[2][2] = 1;
 
-};
+        escalonaDoUsuario[0][0] = sx;
+        escalonaDoUsuario[0][1] = 0;
+        escalonaDoUsuario[0][2] = 0;
+        escalonaDoUsuario[1][0] = 0;
+        escalonaDoUsuario[1][1] = sy;
+        escalonaDoUsuario[1][2] = 0;
+        escalonaDoUsuario[2][0] = 0;
+        escalonaDoUsuario[2][1] = 0;
+        escalonaDoUsuario[2][2] = 1;
 
-void Poligono::rotacionaHomogeneo(){
+        rotacionaDoUsuario[0][0] = cos(angRad);
+        rotacionaDoUsuario[0][1] = sin(angRad);
+        rotacionaDoUsuario[0][2] = 0;
+        rotacionaDoUsuario[1][0] = -sin(angRad);
+        rotacionaDoUsuario[1][1] = cos(angRad);
+        rotacionaDoUsuario[1][2] = 0;
+        rotacionaDoUsuario[2][0] = 0;
+        rotacionaDoUsuario[2][1] = 0;
+        rotacionaDoUsuario[2][2] = 1;
 
+        transladaDoUsuario[0][0] = 1;
+        transladaDoUsuario[0][1] = 0;
+        transladaDoUsuario[0][2] = 0;
+        transladaDoUsuario[1][0] = 0;
+        transladaDoUsuario[1][1] = 1;
+        transladaDoUsuario[1][2] = 0;
+        transladaDoUsuario[2][0] = dx;
+        transladaDoUsuario[2][1] = dy;
+        transladaDoUsuario[2][2] = 1;
+
+        transladaParaOrigemPoligono[0][0] = 1;
+        transladaParaOrigemPoligono[0][1] = 0;
+        transladaParaOrigemPoligono[0][2] = 0;
+        transladaParaOrigemPoligono[1][0] = 0;
+        transladaParaOrigemPoligono[1][1] = 1;
+        transladaParaOrigemPoligono[1][2] = 0;
+        transladaParaOrigemPoligono[2][0] = centro.x;
+        transladaParaOrigemPoligono[2][1] = centro.y;
+        transladaParaOrigemPoligono[2][2] = 1;
+
+        matrizAuxiliar[0][0] = 1;
+        matrizAuxiliar[0][1] = 0;
+        matrizAuxiliar[0][2] = 0;
+        matrizAuxiliar[1][0] = 0;
+        matrizAuxiliar[1][1] = 1;
+        matrizAuxiliar[1][2] = 0;
+        matrizAuxiliar[2][0] = 0;
+        matrizAuxiliar[2][1] = 0;
+        matrizAuxiliar[2][2] = 1;
+
+        for(unsigned int i=0; i<3; i++)
+	{
+		for(unsigned int j=0; j<3; j++)
+		{
+			for(unsigned int k=0; k<3; k++)
+			{
+				soma += matrizAuxiliar[i][k] *
+                                        transladaParaMeioDoMundo[k][j];
+			}
+			matrizFinal[i][j] = soma;
+			soma = 0;
+		}
+	}
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        matrizAuxiliar[i][j] = matrizFinal[i][j];
+                }
+        }
+        if(transladaBool){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        soma += matrizAuxiliar[i][k] *
+                                                transladaDoUsuario[k][j];
+			        }
+			        matrizFinal[i][j] = soma;
+			        soma = 0;
+		        }
+	        }
+        }   
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        matrizAuxiliar[i][j] = matrizFinal[i][j];
+                }
+        }
+        if(escalonaBool){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        soma += matrizAuxiliar[i][k] *
+                                                escalonaDoUsuario[k][j];
+			        }
+			        matrizFinal[i][j] = soma;
+			        soma = 0;
+		        }
+	        }
+        }   
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        matrizAuxiliar[i][j] = matrizFinal[i][j];
+                }
+        }
+        if(rotacionaBool){
+                for(unsigned int i=0; i<3; i++)
+	        {
+		        for(unsigned int j=0; j<3; j++)
+		        {
+			        for(unsigned int k=0; k<3; k++)
+			        {
+				        soma += matrizAuxiliar[i][k] *
+                                                rotacionaDoUsuario[k][j];
+			        }
+			        matrizFinal[i][j] = soma;
+			        soma = 0;
+		        }
+	        }
+        }    
+        for( unsigned int i = 0; i < 3; i++){
+                for(unsigned int j = 0; j <3; j++){
+                        matrizAuxiliar[i][j] = matrizFinal[i][j];
+                }
+        }
+        for(unsigned int i=0; i<3; i++)
+	{
+		for(unsigned int j=0; j<3; j++)
+		{
+			for(unsigned int k=0; k<3; k++)
+			{
+				soma += matrizAuxiliar[i][k] *
+                                        transladaParaOrigemPoligono[k][j];
+			}
+			matrizFinal[i][j] = soma;
+			soma = 0;
+		}
+	}
+
+        for(unsigned int i = 0; i < pontos.size(); i++){
+                pontos[i].Homogeneo(matrizFinal);
+        }
 };
 
 #pragma package(smart_init)

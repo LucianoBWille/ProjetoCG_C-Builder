@@ -17,7 +17,7 @@ class Ponto{
         void transladaNormal(float dx, float dy);
         void escalonaNormal(float sx, float sy);
         void rotacionaNormal(float angulo);
-        void Homogeneo(float m0[3], float m1[3], float m2[3]);
+        void Homogeneo(float matrizDeMudanca[3][3]);
 
 };
 #endif

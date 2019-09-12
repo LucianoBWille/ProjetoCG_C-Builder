@@ -38,24 +38,22 @@ void Ponto::rotacionaNormal(float angulo){
         this->y = aux * sin(angulo) + this->y * cos(angulo);
 };
 
-void Ponto::Homogeneo(float m[3][3]){
-        float p[1][3];
-        p[0][1] = this->x;
-        p[0][1] = this->y;
-        p[0][2] = 0;
-        for(unsigned int i=0; i<1; i++)
-	{
-		for(unsigned int j=0; j<3; j++)
-		{
-			for(unsigned int k=0; k<3; k++)
-			{
-				sum += p[i][j] * mf[j][k];
-			}
-			p[i][j]=sum;
-			sum=0;
-		}
-	}
-        this->x = p[0][0];
-        this->y = p[0][1];
+void Ponto::Homogeneo(float matrizDeMudanca[3][3]){
+        float pontoAux[1][3], pontoFinal[1][3], soma = 0;
+
+        pontoAux[0][0] = this->x;
+        pontoAux[0][1] = this->y;
+        pontoAux[0][2] = 1;
+        for(unsigned int j=0; j<3; j++)
+        {
+                for(unsigned int k=0; k<3; k++)
+                {
+                        soma += pontoAux[0][k] * matrizDeMudanca[k][j];
+                }
+                pontoFinal[0][j] = soma;
+                soma = 0;
+        }
+        this->x = pontoFinal[0][0];
+        this->y = pontoFinal[0][1];
 };
 #pragma package(smart_init)

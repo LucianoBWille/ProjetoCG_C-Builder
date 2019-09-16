@@ -59,7 +59,7 @@ void DisplayFile::clippPoligonosPorPonto(Janela areaDeClipping, int *contaId){
                 poligonos.insert(poligonos.begin(), poligonoAuxiliar);
                 for(unsigned int i = 1; i < poligonos.size(); i++){
                         poligonos[i].id++;
-                }     
+                }
         }
         int tamanho = poligonos.size();
         for(int i = 0; i < tamanho; i++){
@@ -67,11 +67,54 @@ void DisplayFile::clippPoligonosPorPonto(Janela areaDeClipping, int *contaId){
                         poligonos.erase(poligonos.begin()+i);
                         i--;
                         tamanho--;
-                        for(int j = i; j < tamanho; j++){
-                                poligonos[j].id = j;
-                        }
                         *contaId = *contaId-1;
                 }
+        }
+        for(int j = 0; j < tamanho; j++){
+                poligonos[j].id = j;
+        }
+};
+
+void DisplayFile::clippPoligonosPorReta(Janela areaDeClipping, int *contaId){
+        Poligono poligonoAuxiliar;
+        int tamanhoPoligono = poligonos.size();
+        for(unsigned int i = 0; i < tamanhoPoligono; i++){
+                poligonos[i].clippPoligonoPorReta(areaDeClipping, &poligonoAuxiliar);
+                if(poligonoAuxiliar.pontos.size()>0)
+                        poligonos.push_back(poligonoAuxiliar);
+                poligonoAuxiliar.pontos.clear();
+        }
+        if(poligonos[0].pontos.size() != 5 ||
+                (poligonos[0].pontos[0].x != areaDeClipping.xMin &&
+                poligonos[0].pontos[0].y != areaDeClipping.yMax &&
+                poligonos[0].pontos[1].x != areaDeClipping.xMax &&
+                poligonos[0].pontos[1].y != areaDeClipping.yMax)){  
+                Poligono poligonoAuxiliar;
+                poligonoAuxiliar.pontos.push_back(Ponto(areaDeClipping.xMin,
+                                                        areaDeClipping.yMax));
+                poligonoAuxiliar.pontos.push_back(Ponto(areaDeClipping.xMax,
+                                                        areaDeClipping.yMax));
+                poligonoAuxiliar.pontos.push_back(Ponto(areaDeClipping.xMax,
+                                                        areaDeClipping.yMin));
+                poligonoAuxiliar.pontos.push_back(Ponto(areaDeClipping.xMin,
+                                                        areaDeClipping.yMin));
+                poligonoAuxiliar.pontos.push_back(Ponto(areaDeClipping.xMin,
+                                                        areaDeClipping.yMax));
+                poligonoAuxiliar.id = 0;
+                *contaId = *contaId + 1;
+                poligonos.insert(poligonos.begin(), poligonoAuxiliar);
+        }
+        int tamanho = poligonos.size();
+        for(int i = 0; i < tamanho; i++){
+                if(poligonos[i].pontos.size() == 0){
+                        poligonos.erase(poligonos.begin()+i);
+                        i--;
+                        tamanho--;
+                        *contaId = *contaId-1;
+                }
+        }
+        for(int j = 0; j < tamanho; j++){
+                poligonos[j].id = j;
         }
 };
 #pragma package(smart_init)

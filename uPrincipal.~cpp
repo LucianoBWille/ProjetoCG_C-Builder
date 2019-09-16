@@ -15,6 +15,7 @@ TForm1 *Form1;
 Ponto aux;
 Janela mundo(-250.0,-250.0,250.0,250.0);
 Janela vp(0,0,500,500);
+Janela areaDeClipping(-100, -100, 100, 100);
 Poligono poligono;
 DisplayFile display;
 int contaId=0;
@@ -542,12 +543,15 @@ void __fastcall TForm1::BtnExeHomoClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::BtnClippClick(TObject *Sender)
 {
-        if(tipoClipping == 1){ //Clipping Ponto
-                
-        }else{
-                if(tipoClipping){
-
-                }
+        switch(tipoClipping){
+                case 0: atualizaTela();
+                        break;
+                case 1: display.clippPoligonosPorPonto(areaDeClipping, &contaId);
+                        atualizaTela();
+                        break;
+                case 2: display.clippPoligonosPorReta(areaDeClipping, &contaId);
+                        atualizaTela();
+                        break;
         }
 }
 //---------------------------------------------------------------------------
@@ -555,6 +559,12 @@ void __fastcall TForm1::BtnClippClick(TObject *Sender)
 void __fastcall TForm1::RadioGroupClippingClick(TObject *Sender)
 {
         tipoClipping = RadioGroupClipping->ItemIndex;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button6Click(TObject *Sender)
+{
+        ShowMessage(display.poligonos[2].pontos[1].calculaValorClippingDeCohen(areaDeClipping));       
 }
 //---------------------------------------------------------------------------
 

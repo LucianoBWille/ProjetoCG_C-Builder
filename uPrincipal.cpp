@@ -549,6 +549,9 @@ void __fastcall TForm1::BtnClippClick(TObject *Sender)
                 case 1: display.clippPoligonosPorPonto(areaDeClipping, &contaId);
                         atualizaTela();
                         break;
+                case 2: display.clippPoligonosPorReta(areaDeClipping, &contaId);
+                        atualizaTela();
+                        break;
         }
 }
 //---------------------------------------------------------------------------
@@ -556,6 +559,12 @@ void __fastcall TForm1::BtnClippClick(TObject *Sender)
 void __fastcall TForm1::RadioGroupClippingClick(TObject *Sender)
 {
         tipoClipping = RadioGroupClipping->ItemIndex;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button6Click(TObject *Sender)
+{
+        ShowMessage(display.poligonos[2].pontos[1].calculaValorClippingDeCohen(areaDeClipping));       
 }
 //---------------------------------------------------------------------------
 

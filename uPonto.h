@@ -21,7 +21,8 @@ class Ponto{
         void rotacionaNormal(float angulo);
         void Homogeneo(float matrizDeMudanca[3][3]);
         void destacaPonto(TCanvas* canvas, Janela mundo, Janela vp);
-        int naAreaDeClipping(Janela areaDeClipping);
+        int naAreaDeClippingSimples(Janela areaDeClipping);
+        int calculaValorClippingDeCohen(Janela areaDeClipping);
 
 };
 #endif

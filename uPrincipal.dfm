@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 185
-  Top = 129
+  Left = 132
+  Top = 132
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Form1'
@@ -48,8 +48,8 @@ object Form1: TForm1
     Top = 0
     Width = 657
     Height = 529
-    ActivePage = TabSheetPoligonos
-    TabIndex = 0
+    ActivePage = TabSheetMundoVP
+    TabIndex = 1
     TabOrder = 1
     object TabSheetPoligonos: TTabSheet
       Caption = 'Poligonos'
@@ -99,8 +99,8 @@ object Form1: TForm1
         Top = 136
         Width = 649
         Height = 369
-        ActivePage = TabSheet1
-        TabIndex = 1
+        ActivePage = TabSheetdicionaPoligono
+        TabIndex = 0
         TabOrder = 3
         object TabSheetdicionaPoligono: TTabSheet
           Caption = 'Adicionar'
@@ -130,6 +130,7 @@ object Form1: TForm1
                 Height = 25
                 Caption = 'Button6'
                 TabOrder = 1
+                OnClick = Button6Click
               end
             end
             object TabSheet3: TTabSheet

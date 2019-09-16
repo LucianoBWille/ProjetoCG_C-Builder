@@ -11,7 +11,7 @@
 Poligono::Poligono(){
   tipo = 'N';
 };
-
+//---------------------------------------------------------------------------
 void Poligono::desenha(TCanvas* canvas, Janela mundo, Janela vp, int tipoReta, bool destaca){
         switch(tipoReta){
                 case 0: desenhaNormal(canvas, mundo, vp, destaca);
@@ -22,7 +22,7 @@ void Poligono::desenha(TCanvas* canvas, Janela mundo, Janela vp, int tipoReta, b
                         break;
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::desenhaNormal(TCanvas* canvas, Janela mundo, Janela vp, bool destaca){
         if(destaca)
                 canvas->Pen->Width = 3;
@@ -34,7 +34,7 @@ void Poligono::desenhaNormal(TCanvas* canvas, Janela mundo, Janela vp, bool dest
                 }
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::desenhaDDA(TCanvas* canvas, Janela mundo, Janela vp, bool destaca){
         #define SIGN(x)  ((x) < 0 ? (-1): (1))
         #define ABS(x)   ((x) < 0 ? (-x): (x))
@@ -71,7 +71,7 @@ void Poligono::desenhaDDA(TCanvas* canvas, Janela mundo, Janela vp, bool destaca
                 }
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool destaca){
 
         #define SIGN(x)  ((x) < 0 ? (-1): (1))
@@ -130,15 +130,15 @@ void Poligono::desenhaBresenham(TCanvas* canvas, Janela mundo, Janela vp, bool d
                 }
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::removePonto(int indice){
         pontos.erase(&pontos[indice]);
 };
-
+//---------------------------------------------------------------------------
 void Poligono::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp, int indice){
         pontos[indice].destacaPonto(canvas, mundo, vp);
 };
-
+//---------------------------------------------------------------------------
 Poligono Poligono::criaPoligonoCirculo(int r){
         vector<Poligono> parte;
         Poligono p0;
@@ -201,26 +201,26 @@ Poligono Poligono::criaPoligonoCirculo(int r){
         return poligonoResultado;
 
 };
-
+//---------------------------------------------------------------------------
 void Poligono::transladaNormal(float dx, float dy){
         for(unsigned int i = 0; i < pontos.size(); i++){
                 pontos[i].transladaNormal(dx, dy);
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::escalonaNormal(float sx, float sy){
         for(unsigned int i = 0; i < pontos.size(); i++){
                 pontos[i].escalonaNormal(sx, sy);
         }
 };
-
+//---------------------------------------------------------------------------
 void Poligono::rotacionaNormal(float angulo){
         float anguloEmRadianos = (M_PI / 180) * angulo;
         for(unsigned int i = 0; i < pontos.size(); i++){
                 pontos[i].rotacionaNormal(anguloEmRadianos);
         }
 };
-
+//---------------------------------------------------------------------------
 Ponto Poligono::calculaCentroPoligono(){
         Ponto pontoTemporario;          /*
         double maiorX, maiorY, menorX, menorY;
@@ -433,9 +433,300 @@ void Poligono::Homogeniza(bool transladaBool, bool escalonaBool, bool rotacionaB
 void Poligono::clippPoligonoPorPonto(Janela areaDeClipping){
         Poligono poligonoAuxiliar;
         for(unsigned int i = 0; i < pontos.size(); i++){
-                if (pontos[i].naAreaDeClipping(areaDeClipping) == 1)
+                if (pontos[i].naAreaDeClippingSimples(areaDeClipping) == 1)
                         poligonoAuxiliar.pontos.push_back(pontos[i]);
         }
         pontos = poligonoAuxiliar.pontos;
+};
+
+void Poligono::clippPoligonoPorReta(Janela areaDeClipping, Poligono* poligonoAuxiliar){
+        float coeficienteAgular, valorDeBnaFormulaDaReta;
+        //Poligono poligonoAuxiliar;
+        //int pontoUmValorDeCohen = pontos[0].calculaValorClippingDeCohen(areaDeClipping);
+        for (unsigned int i = 0; i < pontos.size()-1; i++){
+                int pontoUmValorDeCohen = pontos[i].calculaValorClippingDeCohen(areaDeClipping);
+                int pontoDoisValorDeCohen = pontos[i+1].calculaValorClippingDeCohen(areaDeClipping);  /*
+                if(pontoUmValorDeCohen == 0 && pontoDoisValorDeCohen == 0){
+                        poligonoAuxiliar->pontos.push_back(pontos[i-1]);
+                        poligonoAuxiliar->pontos.push_back(pontos[i]);
+                }
+                pontoUmValorDeCohen = pontoDoisValorDeCohen;
+*/
+
+
+
+                if(pontoUmValorDeCohen == 0 && pontoDoisValorDeCohen == 0){
+                        poligonoAuxiliar->pontos.push_back(pontos[i]);
+                        poligonoAuxiliar->pontos.push_back(pontos[i+1]);
+                }else{
+                        int somaCohen = pontoUmValorDeCohen & pontoDoisValorDeCohen;
+                        if(somaCohen == 0){
+                                if((pontos[i+1].x-pontos[i].x) == 0){
+                                        if(pontos[i].y > pontos[i+1].y){
+                                                if(pontoUmValorDeCohen == 0){
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i]);
+                                                }else{
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(pontos[i].x, areaDeClipping.yMax));
+                                                }
+                                                if(pontoDoisValorDeCohen == 0){
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i+1]);
+                                                }else{
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(pontos[i+1].x, areaDeClipping.yMin));
+                                                }
+
+                                        }else{
+                                                if(pontoUmValorDeCohen == 0){
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i]);
+                                                }else{
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(pontos[i].x, areaDeClipping.yMin));
+                                                }
+                                                if(pontoDoisValorDeCohen == 0){
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i+1]);
+                                                }else{
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(pontos[i+1].x, areaDeClipping.yMax));
+                                                }
+                                        }
+                                }else{
+                                        if((pontos[i+1].y-pontos[i].y) == 0){
+                                                if(pontos[i].x > pontos[i+1].x){
+                                                        if(pontoUmValorDeCohen == 0){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        pontos[i]);
+                                                        }else{
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMax, pontos[i].y));
+                                                        }
+                                                        if(pontoDoisValorDeCohen == 0){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        pontos[i+1]);
+                                                        }else{
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, pontos[i+1].y));
+                                                        }
+
+                                                }else{
+                                                        if(pontoUmValorDeCohen == 0){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        pontos[i]);
+                                                        }else{
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, pontos[i].y));
+                                                        }
+                                                        if(pontoDoisValorDeCohen == 0){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        pontos[i+1]);
+                                                        }else{
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMax, pontos[i+1].y));
+                                                        }
+                                                }
+                                        }else{
+                                        float deltaY = (pontos[i+1].y-pontos[i].y), deltaX = (pontos[i+1].x-pontos[i].x);
+                                        coeficienteAgular = deltaY/deltaX;
+                                        valorDeBnaFormulaDaReta = pontos[i].y - coeficienteAgular*pontos[i].x;
+                                        float valorDeY;
+                                        float valorDeX;
+                                        switch(pontoUmValorDeCohen){
+                                                case 0: //Dentro da Area
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i]);
+                                                        break;
+                                                case 1: //A Esquerda da Area
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 2: //A Direita da Area
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                                case 4: //Abaixo da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        break;
+                                                case 5: //Abaixo e a Esquerda da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 6: //Abaixo e a Direita da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                                case 8: //Acima da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        break;
+                                                case 9: //Acima e a Esquerda da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 10://Acima e a Direita da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                        }
+                                        switch(pontoDoisValorDeCohen){
+                                                case 0: //Dentro da Area
+                                                        poligonoAuxiliar->pontos.push_back(
+                                                                pontos[i+1]);
+                                                        break;
+                                                case 1: //A Esquerda da Area
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 2: //A Direita da Area
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                                case 4: //Abaixo da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        break;
+                                                case 5: //Abaixo e a Esquerda da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 6: //Abaixo e a Direita da Area
+                                                        valorDeX = (areaDeClipping.yMin
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMin));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                                case 8: //Acima da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        break;
+                                                case 9: //Acima e a Esquerda da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMin
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                        Ponto(areaDeClipping.xMin, valorDeY));
+                                                        }
+                                                        break;
+                                                case 10://Acima e a Direita da Area
+                                                        valorDeX = (areaDeClipping.yMax
+                                                                        - valorDeBnaFormulaDaReta)/coeficienteAgular;
+                                                        if(valorDeX <= areaDeClipping.xMax && valorDeX >= areaDeClipping.xMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(valorDeX, areaDeClipping.yMax));
+                                                        }
+                                                        valorDeY = coeficienteAgular*areaDeClipping.xMax
+                                                                        + valorDeBnaFormulaDaReta;
+                                                        if(valorDeY <= areaDeClipping.yMax && valorDeY >= areaDeClipping.yMin){
+                                                                poligonoAuxiliar->pontos.push_back(
+                                                                Ponto(areaDeClipping.xMax, valorDeY));
+                                                        }
+                                                        break;
+                                        }
+                                        }
+                                }
+                        }
+                }
+        }
+        //pontos = poligonoAuxiliar.pontos;
 };
 #pragma package(smart_init)

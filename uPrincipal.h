@@ -123,6 +123,7 @@ __published:	// IDE-managed Components
         void __fastcall BtnExeHomoClick(TObject *Sender);
         void __fastcall BtnClippClick(TObject *Sender);
         void __fastcall RadioGroupClippingClick(TObject *Sender);
+        void __fastcall Button6Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         void atualizaCoordenadaMundo();

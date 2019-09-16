@@ -67,11 +67,30 @@ void Ponto::destacaPonto(TCanvas* canvas, Janela mundo, Janela vp){
                          XW2VP(mundo, vp) + tam, YW2VP(mundo, vp) + tam );
 };
 //---------------------------------------------------------------------------
-int Ponto::naAreaDeClipping(Janela areaDeClipping){
+int Ponto::naAreaDeClippingSimples(Janela areaDeClipping){
         if( this->x < areaDeClipping.xMin || this->x > areaDeClipping.xMax ||
                         this->y < areaDeClipping.yMin || this->y > areaDeClipping.yMax)
                 return 0;
         else
                 return 1;
+};
+//---------------------------------------------------------------------------
+int Ponto::calculaValorClippingDeCohen(Janela areaDeClipping){
+        int resultado = 0;
+        if (x < areaDeClipping.xMin){
+                resultado += 1;
+        }else{
+                if (x > areaDeClipping.xMax){
+                        resultado += 2;
+                }
+        }
+        if (y < areaDeClipping.yMin){
+                resultado += 4;
+        }else{
+                if (y > areaDeClipping.yMax){
+                        resultado += 8;
+                }
+        }
+        return resultado;
 };
 #pragma package(smart_init)

@@ -19,6 +19,7 @@ class DisplayFile{
                 int poligonoSelecionado, int pontoSelecionado, int tipoReta);
         void removePoligono(int indice);
         void clippPoligonosPorPonto(Janela areaDeClipping, int *contaId);
+        void clippPoligonosPorReta(Janela areaDeClipping, int *contaId);
 };
 #endif
   

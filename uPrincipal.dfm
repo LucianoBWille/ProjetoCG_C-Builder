@@ -48,8 +48,8 @@ object Form1: TForm1
     Top = 0
     Width = 657
     Height = 529
-    ActivePage = TabSheetMundoVP
-    TabIndex = 1
+    ActivePage = TabSheetPoligonos
+    TabIndex = 0
     TabOrder = 1
     object TabSheetPoligonos: TTabSheet
       Caption = 'Poligonos'

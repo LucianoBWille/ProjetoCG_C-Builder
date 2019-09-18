@@ -445,15 +445,7 @@ void Poligono::clippPoligonoPorReta(Janela areaDeClipping, Poligono* poligonoAux
         //int pontoUmValorDeCohen = pontos[0].calculaValorClippingDeCohen(areaDeClipping);
         for (unsigned int i = 0; i < pontos.size()-1; i++){
                 int pontoUmValorDeCohen = pontos[i].calculaValorClippingDeCohen(areaDeClipping);
-                int pontoDoisValorDeCohen = pontos[i+1].calculaValorClippingDeCohen(areaDeClipping);  /*
-                if(pontoUmValorDeCohen == 0 && pontoDoisValorDeCohen == 0){
-                        poligonoAuxiliar->pontos.push_back(pontos[i-1]);
-                        poligonoAuxiliar->pontos.push_back(pontos[i]);
-                }
-                pontoUmValorDeCohen = pontoDoisValorDeCohen;
-*/
-
-
+                int pontoDoisValorDeCohen = pontos[i+1].calculaValorClippingDeCohen(areaDeClipping);
 
                 if(pontoUmValorDeCohen == 0 && pontoDoisValorDeCohen == 0){
                         poligonoAuxiliar->pontos.push_back(pontos[i]);

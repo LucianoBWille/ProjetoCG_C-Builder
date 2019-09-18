@@ -129,7 +129,7 @@ public:		// User declarations
         void atualizaCoordenadaMundo();
         void atualizaListaPoligonos();
         void atualizaListaPontos();
-        void atualizaTela();
+        void atualizaView();
         void desselecionaPoligonos();
         void desselecionaPontos();
         double XVP2W(int xVP, Janela, Janela);

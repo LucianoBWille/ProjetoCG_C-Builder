@@ -6,7 +6,6 @@
 #include <ExtCtrls.hpp>
 
 #include "uJanela.h"
-
 //---------------------------------------------------------------------------
 class Ponto{
         public:
@@ -26,3 +25,4 @@ class Ponto{
 
 };
 #endif
+ 

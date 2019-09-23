@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "uPrincipal.h"
+
 #include "uDisplay.h"
 #include "uPoligono.h"
 #include "uPonto.h"
@@ -403,7 +404,8 @@ void __fastcall TForm1::BtnRemoverPontoClick(TObject *Sender)
 void __fastcall TForm1::ListBoxPontosClick(TObject *Sender)
 {
         tempIndexListBoxPontos = ListBoxPontos->ItemIndex;
-        atualizaView();
+        display.desenha(Image1->Canvas, mundo, vp, tempIndexListBoxPoligonos,
+                                        tempIndexListBoxPontos, tipoReta);
 }
 //---------------------------------------------------------------------------
 
@@ -594,5 +596,3 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 {
         ShowMessage(display.poligonos[2].pontos[1].calculaValorClippingDeCohen(areaDeClipping));       
 }
-//---------------------------------------------------------------------------
-

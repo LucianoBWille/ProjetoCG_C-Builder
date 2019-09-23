@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "uPrincipal.h"
+
 #include "uDisplay.h"
 #include "uPoligono.h"
 #include "uPonto.h"
@@ -595,5 +596,3 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 {
         ShowMessage(display.poligonos[2].pontos[1].calculaValorClippingDeCohen(areaDeClipping));       
 }
-//---------------------------------------------------------------------------
-

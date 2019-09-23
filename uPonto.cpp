@@ -1,6 +1,5 @@
 //---------------------------------------------------------------------------
 
-
 #pragma hdrstop
 
 #include "uPonto.h"
@@ -94,3 +93,4 @@ int Ponto::calculaValorClippingDeCohen(Janela areaDeClipping){
         return resultado;
 };
 #pragma package(smart_init)
+ 

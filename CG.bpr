@@ -3,9 +3,9 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="CG004.exe"/>
-    <OBJFILES value="CG004.obj uPrincipal.obj uPonto.obj uJanela.obj uPoligono.obj uDisplay.obj"/>
-    <RESFILES value="CG004.res"/>
+    <PROJECT value="CG.exe"/>
+    <OBJFILES value="CG.obj uPrincipal.obj uPonto.obj uPoligono.obj uJanela.obj uDisplay.obj"/>
+    <RESFILES value="CG.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
@@ -26,15 +26,15 @@
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
-    <MAINSOURCE value="CG004.cpp"/>
-    <INCLUDEPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Bin&quot;;&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG004&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Bin&quot;;&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG004&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <MAINSOURCE value="CG.cpp"/>
+    <INCLUDEPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG012&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG012&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <IDLCFLAGS value="-I&quot;C:\Program Files (x86)\Borland\CBuilder6\Bin&quot; 
-      -I&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG004&quot; 
+    <IDLCFLAGS value="-I&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot; 
+      -I&quot;H:\-_Faculdade_-\6.1 - Computação Gráfica\CBuilder Projects\CG012&quot; 
       -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -boa"/>
     <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
@@ -51,12 +51,12 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="CG004.res" FORMNAME="" UNITNAME="CG004.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CG004.cpp" FORMNAME="" UNITNAME="CG004" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CG.res" FORMNAME="" UNITNAME="CG.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CG.cpp" FORMNAME="" UNITNAME="CG" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="uPrincipal.cpp" FORMNAME="Form1" UNITNAME="uPrincipal" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="uPonto.cpp" FORMNAME="" UNITNAME="uPonto" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="uJanela.cpp" FORMNAME="" UNITNAME="uJanela" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="uPoligono.cpp" FORMNAME="" UNITNAME="uPoligono" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="uJanela.cpp" FORMNAME="" UNITNAME="uJanela" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="uDisplay.cpp" FORMNAME="" UNITNAME="uDisplay" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

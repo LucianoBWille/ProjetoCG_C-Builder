@@ -1,6 +1,5 @@
 //---------------------------------------------------------------------------
 
-
 #pragma hdrstop
 
 #include "uDisplay.h"
@@ -118,3 +117,4 @@ void DisplayFile::clippPoligonosPorReta(Janela areaDeClipping, int *contaId){
         }
 };
 #pragma package(smart_init)
+ 

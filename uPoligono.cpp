@@ -6,7 +6,6 @@
 #include "uPoligono.h"
 
 #include <math.h>
-
 //---------------------------------------------------------------------------
 Poligono::Poligono(){
   tipo = 'N';
@@ -719,6 +718,5 @@ void Poligono::clippPoligonoPorReta(Janela areaDeClipping, Poligono* poligonoAux
                         }
                 }
         }
-        //pontos = poligonoAuxiliar.pontos;
 };
 #pragma package(smart_init)

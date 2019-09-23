@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef uPoligonosH
-#define uPoligonosH
+#ifndef uPoligonoH
+#define uPoligonoH
 
 #include <stdio.h>
 #include <iostream>
@@ -11,7 +11,6 @@ using namespace std;
 #include <ExtCtrls.hpp>
 
 #include "uPonto.h"
-
 //---------------------------------------------------------------------------
 class Poligono{
         public:
@@ -37,10 +36,6 @@ class Poligono{
                 void clippPoligonoPorPonto(Janela areaDeClipping); 
                 void clippPoligonoPorReta(Janela areaDeClipping, Poligono* poligonoAuxiliar);
 
-
-
 };
 #endif
- 
- 
  

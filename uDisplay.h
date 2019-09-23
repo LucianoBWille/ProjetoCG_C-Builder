@@ -10,7 +10,6 @@
 #include "uPoligono.h"
 
 using namespace std;
-
 //---------------------------------------------------------------------------
 class DisplayFile{
         public:
@@ -22,5 +21,4 @@ class DisplayFile{
         void clippPoligonosPorReta(Janela areaDeClipping, int *contaId);
 };
 #endif
-  
-
+ 

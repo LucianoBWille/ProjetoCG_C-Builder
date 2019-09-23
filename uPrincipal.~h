@@ -6,7 +6,7 @@
 #include <Classes.hpp>
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
-#include <Forms.hpp>
+#include <Forms.hpp> 
 #include <ExtCtrls.hpp>
 #include <Buttons.hpp>
 #include <Menus.hpp>
@@ -15,7 +15,7 @@
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:	// IDE-managed Components
+__published:	// IDE-managed Components 
         TPanel *Panel1;
         TLabel *LabelCoordenadaVP;
         TLabel *LabelCoordenadaMundo;
@@ -125,7 +125,7 @@ __published:	// IDE-managed Components
         void __fastcall RadioGroupClippingClick(TObject *Sender);
         void __fastcall Button6Click(TObject *Sender);
 private:	// User declarations
-public:		// User declarations
+public:		// User declarations     
         void atualizaCoordenadaMundo();
         void atualizaListaPoligonos();
         void atualizaListaPontos();
